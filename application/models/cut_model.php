@@ -8,7 +8,7 @@ class Cut_model extends CI_Model {
     public function get_all_cuts() {
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('cortes')} c, "
-                . "{$this->db->dbprefix('usuarios')} u "
+                . "{$this->db->dbprefix('usuarios_sistema')} u "
                 . "WHERE c.USUARIO_ID = u.USUARIO_ID";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
@@ -17,7 +17,7 @@ class Cut_model extends CI_Model {
     public function get_cut_id($CORTE_ID) {
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('cortes')} c, "
-                . "{$this->db->dbprefix('usuarios')} u "
+                . "{$this->db->dbprefix('usuarios_sistema')} u "
                 . "WHERE c.USUARIO_ID = u.USUARIO_ID AND CORTE_ID=$CORTE_ID";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();

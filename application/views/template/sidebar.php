@@ -8,7 +8,7 @@
             <li class="sidebar-toggler-wrapper">
                 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                 <div class="sidebar-toggler">
-                    
+
                 </div>
                 <!-- END SIDEBAR TOGGLER BUTTON -->
             </li>
@@ -44,6 +44,24 @@
                         <?php endif; ?>
                     </ul>
                 </li>
+            <?php endif; ?>            
+
+            <?php if (know_permission_role('PER', 'permission_view')): ?>
+                <li class="<?php echo strstr($content, 'profile') ? 'active open' : ''; ?>">
+                    <a href="javascript:;">
+                        <i class="icon-graduation"></i>
+                        <span class="title">Perfilamiento</span>
+                        <?php echo strstr($content, 'profile') ? '<span class="selected"></span>' : ''; ?>
+                        <span class="arrow <?php echo strstr($content, 'user') ? 'open' : ''; ?>"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="<?php echo base_url('profile'); ?>">
+                                Listado de Aspirantes
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             <?php endif; ?>
 
             <?php if (know_permission_role('ROL', 'permission_view')): ?>
@@ -57,125 +75,11 @@
                     <ul class="sub-menu">
                         <li>
                             <a href="<?php echo base_url('config/roles'); ?>">
-                                Roles</a>
+                                Roles
+                            </a>
                         </li>
                     </ul>
                 </li>
-            <?php endif; ?>
-
-            <?php if (know_permission_role('HVI', 'permission_view')): ?>
-                <li class="<?php echo strstr($content, 'cv') ? 'active open' : ''; ?>">
-                    <a href="javascript:;">
-                        <i class="icon-doc"></i>
-                        <span class="title">Admin de Hojas de Vida</span>
-                        <?php echo strstr($content, 'cv') ? '<span class="selected"></span>' : ''; ?>
-                        <span class="arrow <?php echo strstr($content, 'cv') ? 'open' : ''; ?>"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="<?php echo base_url('cv'); ?>">
-                                Listado de Hojas de Vida
-                            </a>
-                        </li>
-                        <?php if (know_permission_role('HVI', 'permission_add')): ?>
-                            <li>
-                                <a href="<?php echo base_url('cv/add'); ?>">
-                                    Agregar Hoja de Vida
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </li>
-            <?php endif; ?>
-
-            <?php if (know_permission_role('CON', 'permission_view')): ?>
-                <li class="<?php echo strstr($content, 'contract') ? 'active open' : ''; ?>">
-                    <a href="javascript:;">
-                        <i class="icon-notebook"></i>
-                        <span class="title">Contratos</span>
-                        <?php echo strstr($content, 'contract') ? '<span class="selected"></span>' : ''; ?>
-                        <span class="arrow <?php echo strstr($content, 'contract') ? 'open' : ''; ?>"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="<?php echo base_url('contract'); ?>">
-                                Listado de Contratos
-                            </a>
-                        </li>
-                        <?php if (know_permission_role('CON', 'permission_add')): ?>
-                            <li>
-                                <a href="<?php echo base_url('contract/add'); ?>">
-                                    Agregar Contrato
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </li>
-            <?php endif; ?>
-
-            <?php if (know_permission_role('COR', 'permission_view')): ?>
-                <li class="<?php echo strstr($content, 'cut') ? 'active open' : ''; ?>">
-                    <a href="javascript:;">
-                        <i class="icon-calendar"></i>
-                        <span class="title">Admin de Cortes</span>
-                        <?php echo strstr($content, 'cut') ? '<span class="selected"></span>' : ''; ?>
-                        <span class="arrow <?php echo strstr($content, 'cut') ? 'open' : ''; ?>"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="<?php echo base_url('cut'); ?>">
-                                Listado de Cortes
-                            </a>
-                        </li>
-                        <?php if (know_permission_role('COR', 'permission_add')): ?>
-                            <li>
-                                <a href="<?php echo base_url('cut/add'); ?>">
-                                    Agregar Corte
-                                </a>
-                            </li> 
-                        <?php endif; ?>
-                        <li>
-                            <a href="<?php echo base_url('cut/view_cut/'.date("Y").'/'.date("n")); ?>">
-                                Explorar
-                            </a>
-                        </li>                            
-                    </ul>
-                </li>
-            <?php endif; ?>
-
-            <?php if (know_permission_role('DCO', 'permission_view')): ?>
-                <li class="<?php echo strstr($content, '---') ? 'active open' : ''; ?>">
-                    <a href="javascript:;">
-                        <i class="icon-docs"></i>
-                        <span class="title">Documentos</span>
-                        <?php echo strstr($content, '---') ? '<span class="selected"></span>' : ''; ?>
-                        <span class="arrow <?php echo strstr($content, '---') ? 'open' : ''; ?>"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-<<<<<<< HEAD
-                            <a href="<?php echo base_url('document'); ?>">
-                                Ver Documento
-=======
-                            <a href="<?php echo base_url(''); ?>">
-                                Documentos
->>>>>>> origin/master
-                            </a>
-                        </li>
-                        <?php if (know_permission_role('DCO', 'permission_add')): ?>
-                            <li>
-<<<<<<< HEAD
-                                <a href="<?php echo base_url('document/add'); ?>">
-                                    Agregar Documento a Corte
-=======
-                                <a href="<?php echo base_url(''); ?>">
-                                    Agregar Documento
->>>>>>> origin/master
-                                </a>
-                            </li>
-                        <?php endif; ?>
-                    </ul>
-                </li>  
             <?php endif; ?>
 
         </ul>

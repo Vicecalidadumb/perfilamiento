@@ -25,7 +25,7 @@ class Contract_model extends CI_Model {
 
     public function get_user_documento($username) {
         $sql_string = "SELECT *
-                      FROM {$this->db->dbprefix('usuarios')}
+                      FROM {$this->db->dbprefix('usuarios_sistema')}
                       WHERE HV_NUMERODOCUMENTO = '{$username}'
                       AND HV_ESTADO=1";
 
@@ -153,7 +153,7 @@ class Contract_model extends CI_Model {
     }
 
     public function update_user_password($user_password, $id_user) {
-        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios')} SET
+        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios_sistema')} SET
                        HV_PASSWORD = '{$user_password}'
                        WHERE
                        HV_ID = $id_user

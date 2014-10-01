@@ -11,7 +11,7 @@ class Document_model extends CI_Model {
             $Where = "AND USUARIO_ESTADO=$state";
         }
         $SQL_string = "SELECT *
-                      FROM {$this->db->dbprefix('usuarios')} u, {$this->db->dbprefix('tipos_usuario')} t
+                      FROM {$this->db->dbprefix('usuarios_sistema')} u, {$this->db->dbprefix('tipos_usuario')} t
                       WHERE u.ID_TIPO_USU = t.ID_TIPO_USU $Where
                       ORDER BY USUARIO_NOMBRES";
         $SQL_string_query = $this->db->query($SQL_string);
@@ -24,7 +24,7 @@ class Document_model extends CI_Model {
             $Where = "AND USUARIO_ESTADO=$state";
         }
         $SQL_string = "SELECT *
-                      FROM {$this->db->dbprefix('usuarios')} u, {$this->db->dbprefix('tipos_usuario')} t
+                      FROM {$this->db->dbprefix('usuarios_sistema')} u, {$this->db->dbprefix('tipos_usuario')} t
                       WHERE u.ID_TIPO_USU = t.ID_TIPO_USU $Where
                       ORDER BY USUARIO_NOMBRES";
         $SQL_string_query = $this->db->query($SQL_string);
@@ -34,7 +34,7 @@ class Document_model extends CI_Model {
 
     public function get_user_documento($username) {
         $sql_string = "SELECT *
-                      FROM {$this->db->dbprefix('usuarios')}
+                      FROM {$this->db->dbprefix('usuarios_sistema')}
                       WHERE USUARIO_NUMERODOCUMENTO = '{$username}'
                       AND USUARIO_ESTADO=1";
 
@@ -44,7 +44,7 @@ class Document_model extends CI_Model {
 
     public function get_user_id_user($id_user) {
         $SQL_string = "SELECT *
-                      FROM {$this->db->dbprefix('usuarios')}
+                      FROM {$this->db->dbprefix('usuarios_sistema')}
                       WHERE USUARIO_ID = $id_user";
         //echo $SQL_string;
         $SQL_string_query = $this->db->query($SQL_string);
@@ -61,7 +61,7 @@ class Document_model extends CI_Model {
     }
 
     public function insert_user($data) {
-        $SQL_string = "INSERT INTO {$this->db->dbprefix('usuarios')}
+        $SQL_string = "INSERT INTO {$this->db->dbprefix('usuarios_sistema')}
                       (
                         USUARIO_PASSWORD,
                         USUARIO_NOMBRES,
@@ -100,7 +100,7 @@ class Document_model extends CI_Model {
     }
 
     public function update_user($data) {
-        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios')} SET
+        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios_sistema')} SET
                         USUARIO_NOMBRES = '{$data['USUARIO_NOMBRES']}',
                         USUARIO_APELLIDOS = '{$data['USUARIO_APELLIDOS']}',
                         USUARIO_TIPODOCUMENTO = '{$data['USUARIO_TIPODOCUMENTO']}',
@@ -123,7 +123,7 @@ class Document_model extends CI_Model {
     }
     
     public function update_user_password($user_password, $id_user){
-        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios')} SET
+        $SQL_string = "UPDATE {$this->db->dbprefix('usuarios_sistema')} SET
                        USUARIO_PASSWORD = '{$user_password}'
                        WHERE
                        USUARIO_ID = $id_user

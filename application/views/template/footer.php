@@ -113,6 +113,28 @@
 
     });
 </script>
+
+<script>
+var ajax_datatable;
+ 
+$(document).ready(function() {
+    ajax_datatable = $('table#ajax_datatable').dataTable({
+        "bServerSide": true,
+            "sAjaxSource": "<?php echo base_url(); ?>profile/ajax_datatable",
+            "fnServerData": function(sSource,aoData,fnCallback)
+            {
+                    aoData.push({name: "field2", value: $('#field2').val() });
+                $.ajax({
+                    "dataType": 'json', 
+                    "type": "POST", 
+                    "url": sSource, 
+                    "data": aoData, 
+                    "success": fnCallback
+                });
+            }
+    });
+});
+</script> 
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

@@ -244,12 +244,12 @@ $config['encryption_key'] = 'umbcuentas';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']	= 'cuentas_session';
+$config['sess_cookie_name']	= 'cargue_session';
 $config['sess_expiration']	= 28800;
 $config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= TRUE;
 $config['sess_use_database']	= TRUE;
-$config['sess_table_name']	= 'cuentas_session';
+$config['sess_table_name']	= 'cargue_session';
 $config['sess_match_ip']	= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 28800;

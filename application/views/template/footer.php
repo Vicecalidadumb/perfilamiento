@@ -83,11 +83,12 @@
 <script type="text/javascript" src="<?php echo base_url('/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'); ?>"></script>
 
-
+<script type="text/javascript" src="<?php echo base_url('/assets/admin/pages/scripts/table-ajax.js'); ?>"></script>
 <script src="<?php echo base_url('/assets/admin/pages/scripts/table-advanced.js'); ?>"></script>
 
 
 <script type="text/javascript" src="<?php echo base_url('/js/script_umb.js'); ?>"></script>
+
 
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
@@ -110,17 +111,18 @@
         Tasks.initDashboardWidget();
         ComponentsDropdowns.init();
         FormValidation.init();
-
+        TableAjax.init();
     });
 </script>
 
 <script>
+    /*
 var ajax_datatable;
  
 $(document).ready(function() {
-    ajax_datatable = $('table#ajax_datatable').dataTable({
+    ajax_datatable = $('table#datatable_ajax').dataTable({
         "bServerSide": true,
-            "sAjaxSource": "<?php echo base_url(); ?>profile/ajax_datatable",
+            "sAjaxSource": "<?php //echo base_url(); ?>profile/ajax_datatable",
             "fnServerData": function(sSource,aoData,fnCallback)
             {
                     aoData.push({name: "field2", value: $('#field2').val() });
@@ -133,7 +135,7 @@ $(document).ready(function() {
                 });
             }
     });
-});
+});*/
 </script> 
 <!-- END JAVASCRIPTS -->
 </body>

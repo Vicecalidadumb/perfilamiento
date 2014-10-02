@@ -52,7 +52,7 @@
                        
 
                         <div class="portlet-body">
-                            <table class="table table-striped table-bordered table-hover" id="ajax_datatable">
+                            <table class="table table-striped table-bordered table-hover" id="datatable_ajax">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>

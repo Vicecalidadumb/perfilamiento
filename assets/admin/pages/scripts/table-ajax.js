@@ -1,6 +1,6 @@
-var TableAjax = function () {
+var TableAjax = function() {
 
-    var initPickers = function () {
+    var initPickers = function() {
         //init date pickers
         $('.date-picker').datepicker({
             rtl: Metronic.isRTL(),
@@ -8,27 +8,27 @@ var TableAjax = function () {
         });
     }
 
-    var handleRecords = function () {
+    var handleRecords = function() {
 
         var grid = new Datatable();
 
         grid.init({
             src: $("#datatable_ajax"),
-            onSuccess: function (grid) {
+            onSuccess: function(grid) {
                 // execute some code after table records loaded
             },
-            onError: function (grid) {
+            onError: function(grid) {
                 // execute some code on network or other general error  
             },
             loadingMessage: 'Loading...',
-            dataTable: { // here you can define a typical datatable settings from http://datatables.net/usage/options 
+            dataTable: {// here you can define a typical datatable settings from http://datatables.net/usage/options 
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
                     [10, 20, 50, 100, 150, "All"] // change per page values here
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/table_ajax.php", // ajax source
+                    "url": base_url_js + "profile/ajax_datatable", // ajax source
                 },
                 "order": [
                     [1, "asc"]
@@ -37,7 +37,7 @@ var TableAjax = function () {
         });
 
         // handle group actionsubmit button click
-        grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
+        grid.getTableWrapper().on('click', '.table-group-action-submit', function(e) {
             e.preventDefault();
             var action = $(".table-group-action-input", grid.getTableWrapper());
             if (action.val() != "" && grid.getSelectedRowsCount() > 0) {
@@ -67,9 +67,8 @@ var TableAjax = function () {
     }
 
     return {
-
         //main function to initiate the module
-        init: function () {
+        init: function() {
 
             initPickers();
             handleRecords();

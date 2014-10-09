@@ -48,63 +48,42 @@
                         </div>
                     </div>
                     <div class="portlet-body">
-                        
-                       
+
+
 
                         <div class="portlet-body">
                             <table class="table table-striped table-bordered table-hover" id="datatable_ajax">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
+                                        <th>#</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
                                         <th>Documento</th>
-                                        <th>Correo</th>
-                                        <th>Fecha de Creación</th>
+                                        <th>Pin</th>
+                                        <th>Fecha de Ingreso</th>
+                                        <th>Evaluado</th>
+                                        <th>Opciones</th>
                                     </tr>
                                 </thead>
-                                <!--<tbody>
+                                <tbody>
                                     <?php
-                                    /*
-                                    $count = 1;
+                                    /*$contador = 1;
                                     foreach ($registros as $registro) {
                                         ?>
-                                        <tr <?php echo ($registro->USUARIO_ESTADO == 0) ? 'class="danger"' : '' ?>>
-                                            <td>
-                                                <?php echo $count; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $registro->USUARIO_NOMBRES . ' ' . $registro->USUARIO_APELLIDOS; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $registro->USUARIO_TIPODOCUMENTO . ' ' . $registro->USUARIO_NUMERODOCUMENTO; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $registro->USUARIO_CORREO; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $registro->USUARIO_TELEFONOFIJO . ' - ' . $registro->USUARIO_CELULAR; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $registro->USUARIO_PROFESION; ?>
-                                            </td>                                            
-                                            <td>
-                                                <?php echo $registro->USUARIO_FECHAINGRESO; ?>
-                                            </td>                                         
-                                            <td>
-                                                <a href="<?php echo base_url('cv/edit/' . encrypt_id($registro->HV_ID)) ?>" class="btn default btn-xs purple">
-                                                    <i class="fa fa-edit"></i> 
-                                                    Editar Info. Basica
-                                                </a>
-                                                <a href="<?php echo base_url('cv/documents/' . encrypt_id($registro->HV_ID)) ?>" class="btn default btn-xs yellow">
-                                                    <i class="fa fa-folder-open"></i> 
-                                                    Ver Info. / Gestionar Archivos 
-                                                </a>                                               
-                                            </td>                                        
+                                        <tr>
+                                            <td>#</td>
+                                            <td><?php echo $registro->USUARIO_NOMBRES; ?></td>
+                                            <td>Apellidos</td>
+                                            <td>Documento</td>
+                                            <td>Pin</td>
+                                            <td>Fecha de Ingreso</td>
+                                            <td>Evaluado</td>
                                         </tr>
                                         <?php
-                                        $count++;
+                                        $contador++;
                                     }*/
                                     ?>
-                                </tbody>-->
+                                </tbody>
                             </table>
                         </div>
                     </div>

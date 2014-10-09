@@ -20,19 +20,38 @@ var TableAjax = function() {
             onError: function(grid) {
                 // execute some code on network or other general error  
             },
-            loadingMessage: 'Loading...',
-            dataTable: {// here you can define a typical datatable settings from http://datatables.net/usage/options 
+            loadingMessage: 'Cargando Datos...',
+            dataTable: {
+                "sPaginationType": "full_numbers",
+                "dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>f>r><'table-scrollable't><'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
                     [10, 20, 50, 100, 150, "All"] // change per page values here
                 ],
                 "pageLength": 10, // default record count per page
-                "ajax": {
-                    "url": base_url_js + "profile/ajax_datatable", // ajax source
-                },
+                "ajax": base_url_js + "profile/ajax_datatable",
                 "order": [
                     [1, "asc"]
-                ] // set first column as a default sort by asc
+                ],
+                "language": {// language settings
+                    // metronic spesific
+                    "metronicGroupActions": "_TOTAL_ records selected: ",
+                    "metronicAjaxRequestGeneralError": "Could not complete request. Please check your internet connection",
+                    // data tables spesific
+                    "lengthMenu": "<span class='seperator'>|</span>View _MENU_ records",
+                    "info": "<span class='seperator'>|</span>Found total _TOTAL_ records",
+                    "infoEmpty": "No records found to show",
+                    "emptyTable": "No data available in table",
+                    "zeroRecords": "No matching records found",
+                    "paginate": {
+                        "previous": "Prev",
+                        "next": "Next",
+                        "last": "Last",
+                        "first": "First",
+                        "page": "Page",
+                        "pageOf": "of"
+                    }
+                }
             }
         });
 

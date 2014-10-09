@@ -23,47 +23,49 @@ class Profile extends CI_Controller {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_view');
 
-        $data['registros'] = $this->profile_model->get_all_applicants('ALL');
+        
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Hojas de Vida.';
         $data['content'] = 'profile/index';
         $this->load->view('template/template', $data);
     }
 
-    public function ajax_datatable() {
-        $result = $this->profile_model->get_table();
-
-        $retval = array(
-            "iTotalRecords" => $iTotalRecords,
-            "iTotalDisplayRecords" => $iTotalDisplayRecords,
-            "aaData" => array()
-        );
-
-        foreach ($result as $row) {
-            array_push($json["aaData"], array(
-                $row->field,
-                $row->field2,
-                $row->field3,
-                $row->field3
-            ));
-        }
-
-        header("Content-type: application/json");
-        echo json_encode($json);
-    }
-
-    public function add() {
+    public function assess($INSCRIPCION_PIN) {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_add');
 
-        $data['states'] = get_dropdown($this->user_model->get_states(), 'DEPARTAMENTO_ID', 'DEPARTAMENTO_NOMBRE');
-        $data['states'][] = '-SELECCIONE UN DEPARTAMENTO-';
-        asort($data['states']);
-
-        $data['professions'] = get_dropdown($this->cv_model->get_professions(), 'PROFESION_ID', 'PROFESION_NOMBRE');
+        $data['registro'] = $this->profile_model->get_applicantsdocuments_iduser('1', $this->session->userdata('USUARIO_ID'), $INSCRIPCION_PIN);
+        $data['modalidades'] = $this->profile_model->get_modalities();
+        $data['ofertas'] = $this->profile_model->get_user_offers($INSCRIPCION_PIN);
+        $data['assess'] = $this->profile_model->get_assess();
 
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Nueva Hoja de Vida.';
-        $data['content'] = 'cv/add';
+        $data['content'] = 'profile/add';
         $this->load->view('template/template', $data);
+    }
+    
+    public function info_offer($EMPLEO_ID) {
+        //sleep(1);
+        //VALIDAR PERMISO DEL ROL
+        validation_permission_role($this->module_sigla, 'permission_view');
+
+        $EMPLEO_ID = deencrypt_id($EMPLEO_ID);
+        $data['oferta'] = $this->profile_model->get_offer_id($EMPLEO_ID);
+        if (count($data['oferta']) > 0) {
+            $data['title'] = 'Vista de Oferta Laboral';
+            $this->load->view('profile/view_offer', $data);
+        } else {
+            $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
+            //redirect('profile', 'refresh');
+        }
+    }     
+
+    public function view_document($INSCRIPCION_PIN, $DOCUMENTO_ID) {
+        $document = $this->profile_model->get_document_user($INSCRIPCION_PIN, $DOCUMENTO_ID);
+        //echo '<pre>'.print_r($document,true).'</pre>';
+        $file = $document[0]->DOCUMENTO_NOMBRE . '.pdf';
+        header('Content-type: application/pdf');
+        header('Content-Disposition: inline; filename="' . $document[0]->INSCRIPCION_PIN . '_' . $document[0]->DOCUMENTO_FOLIO . '.pdf"');
+        readfile('../convocatorias/images/documentos/' . $file);
     }
 
     public function insert() {
@@ -214,25 +216,6 @@ class Profile extends CI_Controller {
         }
     }
 
-    public function view_document($DOCUMENTO_ID) {
-        //VALIDAR PERMISO DEL ROL
-        validation_permission_role($this->module_sigla, 'permission_view');
-
-        $DOCUMENTO_ID = deencrypt_id($DOCUMENTO_ID);
-        $documen = $this->cv_model->get_document_cv($DOCUMENTO_ID);
-        if (count($documen) > 0) {
-            //echo '<pre>'.print_r($document,true).'</pre>';
-            $file = $documen[0]->DOCUMENTOHV_NOMBRE . '.pdf';
-            //echo $file;
-            header('Content-type: application/pdf');
-            header('Content-Disposition: inline; filename="' . $documen[0]->DOCUMENTOHV_NOMBRE . '.pdf"');
-            @readfile('images/documentos/' . $file);
-        } else {
-            $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-            redirect('cv', 'refresh');
-        }
-    }
-
     public function update($id_cv) {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_edit');
@@ -300,6 +283,15 @@ class Profile extends CI_Controller {
                 $this->session->set_flashdata(array('message' => 'Error al editar el Registro', 'message_type' => 'warning'));
                 redirect('cv', 'refresh');
             }
+        }
+    }
+
+    public function ajax_datatable() {
+        if ($this->input->is_ajax_request()) {
+            $data = $this->profile_model->get_table();
+            echo $data;
+        } else {
+            echo 'Acceso no utorizado';
         }
     }
 

@@ -83,8 +83,10 @@
 <script type="text/javascript" src="<?php echo base_url('/assets/global/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js'); ?>"></script>
 
+
+<script src="<?php echo base_url('/assets/global/scripts/datatable.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('/assets/admin/pages/scripts/table-ajax.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/admin/pages/scripts/table-advanced.js'); ?>"></script>
+
 
 
 <script type="text/javascript" src="<?php echo base_url('/js/script_umb.js'); ?>"></script>
@@ -95,7 +97,7 @@
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
-
+        TableAjax.init();
         ComponentsPickers.init();
         QuickSidebar.init() // init quick sidebar
         Index.init();
@@ -104,38 +106,38 @@
         Index.initCalendar(); // init index page's custom scripts
         //Index.initCharts(); // init index page's custom scripts
         //Index.initChat();
-        TableAdvanced.init();
+        //TableAdvanced.init();
 
         //Index.initMiniCharts();
         Index.initIntro();
         Tasks.initDashboardWidget();
         ComponentsDropdowns.init();
         FormValidation.init();
-        TableAjax.init();
+
     });
 </script>
 
 <script>
     /*
-var ajax_datatable;
- 
-$(document).ready(function() {
-    ajax_datatable = $('table#datatable_ajax').dataTable({
-        "bServerSide": true,
-            "sAjaxSource": "<?php //echo base_url(); ?>profile/ajax_datatable",
-            "fnServerData": function(sSource,aoData,fnCallback)
-            {
-                    aoData.push({name: "field2", value: $('#field2').val() });
-                $.ajax({
-                    "dataType": 'json', 
-                    "type": "POST", 
-                    "url": sSource, 
-                    "data": aoData, 
-                    "success": fnCallback
-                });
-            }
-    });
-});*/
+     var ajax_datatable;
+     
+     $(document).ready(function() {
+     ajax_datatable = $('table#datatable_ajax').dataTable({
+     "bServerSide": true,
+     "sAjaxSource": "<?php //echo base_url();  ?>profile/ajax_datatable",
+     "fnServerData": function(sSource,aoData,fnCallback)
+     {
+     aoData.push({name: "field2", value: $('#field2').val() });
+     $.ajax({
+     "dataType": 'json', 
+     "type": "POST", 
+     "url": sSource, 
+     "data": aoData, 
+     "success": fnCallback
+     });
+     }
+     });
+     });*/
 </script> 
 <!-- END JAVASCRIPTS -->
 </body>

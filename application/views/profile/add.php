@@ -45,10 +45,17 @@ foreach ($modalidades as $modalidad) {
                     <div class="alert alert-<?php echo $this->session->flashdata('message_type'); ?>">
                         <?php echo $this->session->flashdata('message'); ?>
                     </div>
-                <?php } ?>          
-                <?php echo validation_errors(); ?>            
-            </div>
-            <?php //echo '<pre>' . print_r($ofertas, true) . '</pre>' ?>
+                <?php } ?>                  
+
+                <?php if (count($scores) > 0) { ?>
+                    <div class="note note-info ">
+                        <p>
+                            Fecha de la ultima evaluaci&oacute;n: <?php echo $scores[0]->EVALUACION_FECHA; ?>
+                        </p>
+                    </div> 
+                <?php } ?>
+            </div> 
+            <?php //echo '<pre>' . print_r($scores, true) . '</pre>' ?>
             <div class="col-md-12 col-sm-12">
                 <?php //echo '<pre>' . print_r($registro, true) . '</pre>'; ?>
                 <!-- BEGIN SAMPLE TABLE PORTLET-->
@@ -123,10 +130,12 @@ foreach ($modalidades as $modalidad) {
                                                 <p>
                                                     <strong>Codigo/Region:</strong> 
                                                     <a href="<?php echo base_url('profile/info_offer/' . encrypt_id($oferta->EMPLEO_ID)) ?>" class="label label-info" data-target="#ajax<?php echo $oferta->OFERTAINS_ID; ?>" data-toggle="modal">
-                                                        <?php echo 'UMB2014' . str_pad($oferta->OFERTAINS_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONAL_NOMBRE ?>
+                                                        <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
                                                         &nbsp;
-                                                        <i class="fa fa-external-link"></i>
+                                                        <i class="fa fa-search"></i>
                                                     </a>
+                                                    &nbsp;&nbsp;
+                                                    <a target="_blank" href="http://convocatorias.umb.edu.co/ofertas/informacion/<?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT);  ?>" class="btn red btn-xs"><i class="fa fa-external-link"></i></a>
                                                 <div class="modal fade" id="ajax<?php echo $oferta->OFERTAINS_ID; ?>" role="basic" aria-hidden="true" >
                                                     <div class="page-loading page-loading-boxed" style="display: block">
                                                         <img src="<?php echo base_url('/assets/global/img/loading-spinner-grey.gif') ?>" alt="" class="loading">
@@ -138,7 +147,7 @@ foreach ($modalidades as $modalidad) {
                                                         <div class="modal-content">
                                                         </div>
                                                     </div>
-                                                </div>                                                    
+                                                </div> 
                                                 </p>                                                     
                                                 <?php
                                             }
@@ -447,84 +456,138 @@ foreach ($modalidades as $modalidad) {
                                         </div>
                                     </div>
                                     <br>
-                                    <?php
-                                    foreach ($ofertas as $oferta) {
-                                        ?>                                    
-                                        <div class="portlet box red">
-                                            <div class="portlet-title">
-                                                <div class="caption">
-                                                    <i class="fa fa-check-circle-o"></i>
-                                                    Evaluaci&oacute;n para Oferta 
-                                                    <?php echo 'UMB2014' . str_pad($oferta->OFERTAINS_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONAL_NOMBRE ?>
+                                    <form id="insert_contract" action="<?php echo base_url('profile/insert'); ?>" method="post" class="form-horizontal form-row-seperated">
+                                        <?php
+                                        foreach ($ofertas as $oferta) {
+                                            ?>
+                                            <?php echo form_hidden('ASIGNACION_ID', $ASIGNACION_ID); ?>
+                                            <?php echo form_hidden('INSCRIPCION_PIN', $INSCRIPCION_PIN); ?>
+                                            <div class="portlet box <?php echo (count($scores) > 0) ? 'blue' : 'red' ?>">
+                                                <div class="portlet-title">
+                                                    <div class="caption">
+                                                        <i class="fa fa-check-circle-o"></i>
+                                                        Evaluaci&oacute;n para Oferta 
+                                                        <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
+                                                    </div>
+                                                    <div class="tools">
+                                                        <a href="javascript:;" class="collapse">
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="tools">
-                                                    <a href="javascript:;" class="collapse">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="portlet-body">
-                                                <div class="form-body">
-                                                    <table class="table table-striped table-bordered table-advance table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>
-                                                                    Evaluaci&oacute;n
-                                                                </th>
-                                                                <th>
-                                                                    Cumple RM
-                                                                </th>
-                                                                <th>
-                                                                    Putaje Extra
-                                                                </th>
-                                                            </tr>
-                                                        </thead>                                                        
-                                                        <?php
-                                                        foreach ($assess as $asses) {
-                                                            ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php echo $asses->TIPOEVALUACION_NOMBRE; ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php if ($asses->TIPOEVALUACION_CUMPLE) { ?>
-                                                                        <div class="form-group">
-                                                                            <div class="col-md-12">
-                                                                                <?php echo form_dropdown('TIPOCONTRATO_ID', array(1 => 'Cumple', 0 => 'No Cumple', 2 => 'No Aplica'), 1, 'class="form-control"'); ?>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php } ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php if ($asses->TIPOEVALUACION_PUNTAJE) { ?>
-
-                                                                        <div class="form-group">
-                                                                            <div class="col-md-3">
-                                                                                <?php echo form_input('TIPOCONTRATO_ID', '', 'class="form-control"'); ?>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    <?php } ?>
-                                                                </td>
-                                                            </tr>
+                                                <div class="portlet-body">
+                                                    <div class="form-body">
+                                                        <table class="table table-striped table-bordered table-advance table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        Evaluaci&oacute;n
+                                                                    </th>
+                                                                    <th>
+                                                                        Cumple RM
+                                                                    </th>
+                                                                    <th>
+                                                                        Putaje Extra
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>                                                        
                                                             <?php
-                                                        }
-                                                        ?>
-                                                    </table>
-                                                </div>
-                                                <div class="form-actions">
-                                                    <div class="row">
-                                                        <div class="col-md-offset-3 col-md-9">
-                                                            <button type="submit" class="btn green">Guardar</button>
+                                                            foreach ($assess as $asses) {
+                                                                ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <?php echo $asses->TIPOEVALUACION_NOMBRE; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php if ($asses->TIPOEVALUACION_CUMPLE) { ?>
+                                                                            <div class="form-group">
+                                                                                <div class="col-md-12">
+                                                                                    <?php
+                                                                                    $value = 0;
+                                                                                    foreach ($scores as $score) {
+                                                                                        if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 1) {
+                                                                                            $value = $score->EVALUACION_CUMPLE;
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                    <?php echo form_dropdown($oferta->OFERTAINS_ID . '_cumple_' . $asses->TIPOEVALUACION_ID, get_assess_option($asses->TIPOEVALUACION_ID), $value, 'class="form-control" style="font-size: 11px !important;"'); ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php if ($asses->TIPOEVALUACION_PUNTAJE) { ?>
+                                                                            <?php
+                                                                            $value_1 = '';
+                                                                            $value_2 = '';
+                                                                            foreach ($scores as $score) {
+                                                                                if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 2) {
+                                                                                    $value_1 = $score->EVALUACION_PUNTAJE;
+                                                                                    $value_2 = $score->EVALUACION_PVALOR;
+                                                                                }
+                                                                            }
+                                                                            //echo $value_1.'<br>';
+                                                                            //echo $value_2.'<br>';
+                                                                            ?>
+                                                                            <div class="form-group">
+                                                                                <div class="col-md-12">
+                                                                                    <?php echo get_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $value_1, $value_2); ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </table>
+                                                    </div>
+                                                    <div class="form-actions">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label">Observaciones</label>
+                                                                    <div class="col-md-9">
+                                                                        <?php
+                                                                        $value = '';
+                                                                        foreach ($scores as $score) {
+                                                                            if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
+                                                                                $value = $score->EVALUACION_OBSERVACION;
+                                                                            }
+                                                                        }
+                                                                        ?>                                                                        
+                                                                        <textarea name="<?php echo $oferta->EMPLEO_ID . '_obser' ?>" class="form-control" rows="3"><?php echo $value; ?></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button type="submit" class="btn green">Guardar Todo</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <?php
+                                                                if (count($scores) > 0) {
+                                                                    $total = 0;
+                                                                    foreach ($scores as $score) {
+                                                                        if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
+                                                                            $total+= $score->EVALUACION_PUNTAJE;
+                                                                        }
+                                                                    }
+                                                                    echo '  <span class="label label-warning">
+                                                                                Total puntaje obtenido: ' . $total . '
+                                                                            </span>';
+                                                                }
+                                                                ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                        </div>  
-                                        <br>
-                                        <?php
-                                    }
-                                    ?>                                    
+                                            </div>  
+                                            <br>
+                                            <?php
+                                        }
+                                        ?>  
+                                    </form>
                                 </div>
                             </div>
                         </div>                        

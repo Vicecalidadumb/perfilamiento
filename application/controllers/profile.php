@@ -23,26 +23,30 @@ class Profile extends CI_Controller {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_view');
 
-        
+
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Hojas de Vida.';
         $data['content'] = 'profile/index';
         $this->load->view('template/template', $data);
     }
 
-    public function assess($INSCRIPCION_PIN) {
+    public function assess($INSCRIPCION_PIN, $ASIGNACION_ID) {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_add');
+
+        $data['INSCRIPCION_PIN'] = $INSCRIPCION_PIN;
+        $data['ASIGNACION_ID'] = $ASIGNACION_ID;
 
         $data['registro'] = $this->profile_model->get_applicantsdocuments_iduser('1', $this->session->userdata('USUARIO_ID'), $INSCRIPCION_PIN);
         $data['modalidades'] = $this->profile_model->get_modalities();
         $data['ofertas'] = $this->profile_model->get_user_offers($INSCRIPCION_PIN);
         $data['assess'] = $this->profile_model->get_assess();
+        $data['scores'] = $this->profile_model->get_score($ASIGNACION_ID);
 
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Nueva Hoja de Vida.';
         $data['content'] = 'profile/add';
         $this->load->view('template/template', $data);
     }
-    
+
     public function info_offer($EMPLEO_ID) {
         //sleep(1);
         //VALIDAR PERMISO DEL ROL
@@ -57,7 +61,7 @@ class Profile extends CI_Controller {
             $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
             //redirect('profile', 'refresh');
         }
-    }     
+    }
 
     public function view_document($INSCRIPCION_PIN, $DOCUMENTO_ID) {
         $document = $this->profile_model->get_document_user($INSCRIPCION_PIN, $DOCUMENTO_ID);
@@ -71,52 +75,53 @@ class Profile extends CI_Controller {
     public function insert() {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_add');
+        
+        $datetime = date("Y-m-d H:i:s");
+        $assess = $this->profile_model->get_assess();
+        $ofertas = $this->profile_model->get_user_offers($this->input->post('INSCRIPCION_PIN', TRUE));
 
+        foreach ($ofertas as $oferta) {
+            foreach ($assess as $asses) {
+                if ($asses->TIPOEVALUACION_CUMPLE) {
+                    $postname = $oferta->OFERTAINS_ID . '_cumple_' . $asses->TIPOEVALUACION_ID;
+                    $puntaje = score_assess1_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $this->input->post($postname, TRUE));
+                    $data = array(
+                        'ASIGNACION_ID' => $this->input->post('ASIGNACION_ID', TRUE),
+                        'TIPOEVALUACION_ID' => $asses->TIPOEVALUACION_ID,
+                        'EMPLEO_ID' => $oferta->EMPLEO_ID,
+                        'EVALUACION_CUMPLE' => $this->input->post($postname, TRUE),
+                        'EVALUACION_PUNTAJE' => $puntaje,
+                        'EVALUACION_PVALOR' => '',
+                        'EVALUACION_OBSERVACION' => $this->input->post($oferta->EMPLEO_ID . '_obser', TRUE),
+                        'CUMPLE_PUNTAJE' => '1',
+                        'EVALUACION_FECHA' => $datetime
+                    );
+                    $this->profile_model->insert_assess($data);
+                }
+                if ($asses->TIPOEVALUACION_PUNTAJE) {
+                    $postname = name_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID);
+                    $puntaje = score_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $this->input->post($postname, TRUE));
+                    $puntaje_valor = scorevalue_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $this->input->post($postname, TRUE));
 
-        //CARGAMOS LA LIBRERIA DE VALIDACION DE CODEIGNITER
-        $this->load->library('form_validation');
-        //DEFINIMOS LOS DELIMITADORES DE LOS MENSAJES DE ERROR - EN FORMATO HTML
-        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-        //DEFINIMOS LOS CAMPOS QUE VAMOS A VALIDAR, JUNTO CON EL TIPO DE VALIDACION:
-        //(https://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#rulereference)
-
-        $this->form_validation->set_rules('HV_NOMBRES', 'Nombres', 'required|trim');
-        $this->form_validation->set_rules('HV_APELLIDOS', 'Apellidos', 'required|trim');
-        $this->form_validation->set_rules('HV_NUMERODOCUMENTO', 'Numero de Documento', 'required|trim');
-        $this->form_validation->set_rules('HV_LUGARDENACIMIENTO', 'Lugar de Nacimiento', 'required|trim');
-        $this->form_validation->set_rules('HV_LUGARDERESIDENCIA', 'Lugar de Residencia', 'required|trim');
-
-        //SI LA VALIDACION RETORNA UN FALSE, CARGAMOS NUEVAMENTE LA VISTA, SI RETORNA TRUE GUARDAMOS
-        if ($this->form_validation->run() == FALSE) {
-            $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Nueva Hoja de Vida.';
-            $data['content'] = 'cv/add';
-            $this->load->view('template/template', $data);
-        } else {
-            $data = array(
-                'HV_NOMBRES' => $this->input->post('HV_NOMBRES', TRUE),
-                'HV_APELLIDOS' => $this->input->post('HV_APELLIDOS', TRUE),
-                'HV_TIPODOCUMENTO' => $this->input->post('HV_TIPODOCUMENTO', TRUE),
-                'HV_NUMERODOCUMENTO' => $this->input->post('HV_NUMERODOCUMENTO', TRUE),
-                'HV_CORREO' => $this->input->post('HV_CORREO', TRUE),
-                'HV_GENERO' => $this->input->post('HV_GENERO', TRUE),
-                'HV_FECHADENACIMIENTO' => $this->input->post('HV_FECHADENACIMIENTO', TRUE),
-                'HV_LUGARDENACIMIENTO' => $this->input->post('HV_LUGARDENACIMIENTO', TRUE),
-                'HV_DIRECCIONRESIDENCIA' => $this->input->post('HV_DIRECCIONRESIDENCIA', TRUE),
-                'HV_LUGARDERESIDENCIA' => $this->input->post('HV_LUGARDERESIDENCIA', TRUE),
-                'HV_TELEFONOFIJO' => $this->input->post('HV_TELEFONOFIJO', TRUE),
-                'HV_CELULAR' => $this->input->post('HV_CELULAR', TRUE),
-                'HV_PROFESION' => $this->input->post('HV_PROFESION', TRUE)
-            );
-
-            $insert = $this->cv_model->insert_cv($data);
-            if ($insert) {
-                $this->session->set_flashdata(array('message' => 'Usuario agregado con exito', 'message_type' => 'info'));
-                redirect('cv', 'refresh');
-            } else {
-                $this->session->set_flashdata(array('message' => 'Error al insertar usuario', 'message_type' => 'error'));
-                redirect('cv', 'refresh');
+                    $data = array(
+                        'ASIGNACION_ID' => $this->input->post('ASIGNACION_ID', TRUE),
+                        'TIPOEVALUACION_ID' => $asses->TIPOEVALUACION_ID,
+                        'EMPLEO_ID' => $oferta->EMPLEO_ID,
+                        'EVALUACION_CUMPLE' => '',
+                        'EVALUACION_PUNTAJE' => $puntaje,
+                        'EVALUACION_PVALOR' => $puntaje_valor,
+                        'EVALUACION_OBSERVACION' => $this->input->post($oferta->EMPLEO_ID . '_obser', TRUE),
+                        'CUMPLE_PUNTAJE' => '2',
+                        'EVALUACION_FECHA' => $datetime
+                    );
+                    //echo print_r($data, true);
+                    $this->profile_model->insert_assess($data);
+                }
             }
         }
+
+        $this->session->set_flashdata(array('message' => 'Evaluacion Actualizada con Exito', 'message_type' => 'info'));
+        redirect('profile/assess/' . $this->input->post('INSCRIPCION_PIN', TRUE) . '/' . $this->input->post('ASIGNACION_ID', TRUE), 'refresh');
     }
 
     public function edit($id_cv) {

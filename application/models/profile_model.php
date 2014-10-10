@@ -61,11 +61,21 @@ class Profile_model extends CI_Model {
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
+    
+    public function get_score($ASIGNACION_ID){
+        $SQL_string = "SELECT *
+                      FROM {$this->db->dbprefix('evaluacion')} e, {$this->db->dbprefix('tipo_evaluacion')} t
+                      WHERE t.TIPOEVALUACION_ID = e.TIPOEVALUACION_ID AND ASIGNACION_ID = '{$ASIGNACION_ID}' AND e.EVALUACION_ESTADO=1";
+        //echo $SQL_string;
+        $SQL_string_query = $this->db->query($SQL_string);
+        return $SQL_string_query->result();
+    }
 
     public function get_user_offers($INSCRIPCION_PIN) {
-        $SQL_string = "SELECT *
+        $SQL_string = "SELECT o.*,r.*, GROUP_CONCAT(r.REGIONAL_NOMBRE SEPARATOR '-') REGIONES_
                       FROM {$this->db->dbprefix('oferta_ins')} o, {$this->db->dbprefix('regional')} r "
-                . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN =  '$INSCRIPCION_PIN' AND o.ESTADO=1 ";
+                    . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN = '$INSCRIPCION_PIN' AND o.ESTADO=1 "
+                    . " GROUP BY o.EMPLEO_ID";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
@@ -111,6 +121,7 @@ class Profile_model extends CI_Model {
             'USUARIO_NUMERODOCUMENTO',
             'INSCRIPCION_PIN',
             'USUARIO_FECHAINGRESO',
+            'USUARIO_ESTADO',
             'IP'
         );
         //LLAVE PRIMARIA
@@ -157,6 +168,19 @@ class Profile_model extends CI_Model {
 
         //CONSULTA DE REGISTROS
         $sQuery = " SELECT SQL_CALC_FOUND_ROWS " . str_replace(" , ", " ", implode(", ", $aColumns2)) . "
+                    ,
+                    (
+                    SELECT GROUP_CONCAT(DISTINCT  o.EMPLEO_ID SEPARATOR '-')
+                    FROM {$this->db->dbprefix('oferta_ins')} o, {$this->db->dbprefix('regional')} r
+                    WHERE r.REGIONAL_ID = o.REGIONAL_ID AND o.INSCRIPCION_PIN = cargue_inscripcion_pin.INSCRIPCION_PIN AND o.ESTADO=1
+                    ) OFERTAS, 
+                    (
+                    SELECT COUNT(e.EMPLEO_ID)
+                    FROM {$this->db->dbprefix('evaluacion')} e
+                    WHERE e.ASIGNACION_ID = cargue_asignacion_per.ASIGNACION_ID
+                    AND e.EVALUACION_ESTADO=1
+                    ) EVALUACION,
+                    ASIGNACION_ID
                     FROM  $sTable , cargue_inscripcion_pin, cargue_asignacion_per, cargue_usuarios_sistema
                     WHERE
                     cargue_inscripcion_pin.USUARIO_NUMERODOCUMENTO = cargue_usuarios.USUARIO_NUMERODOCUMENTO
@@ -203,8 +227,10 @@ class Profile_model extends CI_Model {
                 if ($aColumns[$i] == "USUARIO_ID") {
                     $row[] = $contador;
                 } elseif ($aColumns[$i] == "IP") {
-                    $row[] = '---';
-                    $row[] = '<a href="' . base_url('profile/assess/' . $aRow[$aColumns[4]]) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                    $row[] = ($aRow['EVALUACION']>0)?'<spam class="label label-success">SI</spam>':'<spam class="label label-default">NO</spam>';
+                    $row[] = '<a href="' . base_url('profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                } elseif ($aColumns[$i] == "USUARIO_ESTADO") {
+                    $row[] = ($aRow['OFERTAS']>0)?'<spam class="label label-success">'.$aRow['OFERTAS'].'</spam>':'<spam class="label label-default">NO</spam>';
                 } elseif ($aColumns[$i] == "movement_state_confirmation") {
                     switch ($aRow[$aColumns[$i]]) {
                         case 0: $row[] = '<center><div class="icon-thumbs-down" style="color: rgb(214, 56, 56);cursor: pointer;" title="Sin Confirmar"></div></center>';
@@ -236,6 +262,43 @@ class Profile_model extends CI_Model {
 
         return json_encode($output);
     }
+    
+    public function insert_assess($data) {
+        $this->db->query("UPDATE {$this->db->dbprefix('evaluacion')} "
+                . "SET EVALUACION_ESTADO=0 "
+                . "WHERE "
+                . "ASIGNACION_ID='{$data['ASIGNACION_ID']}'"
+                . "AND EMPLEO_ID='{$data['EMPLEO_ID']}' AND EVALUACION_FECHA!='{$data['EVALUACION_FECHA']}' ");
+        
+        $SQL_string = "INSERT INTO {$this->db->dbprefix('evaluacion')}
+                      (
+                        TIPOEVALUACION_ID,
+                        ASIGNACION_ID,
+                        EMPLEO_ID,
+                        EVALUACION_CUMPLE,
+                        EVALUACION_PUNTAJE,
+                        EVALUACION_PVALOR,
+                        EVALUACION_OBSERVACION,
+                        CUMPLE_PUNTAJE,
+                        EVALUACION_FECHA
+                       )
+                      VALUES
+                       (
+                        '{$data['TIPOEVALUACION_ID']}',
+                        '{$data['ASIGNACION_ID']}',
+                        '{$data['EMPLEO_ID']}',
+                        '{$data['EVALUACION_CUMPLE']}',
+                        '{$data['EVALUACION_PUNTAJE']}',
+                        '{$data['EVALUACION_PVALOR']}',
+                        '{$data['EVALUACION_OBSERVACION']}',
+                        '{$data['CUMPLE_PUNTAJE']}',
+                        '{$data['EVALUACION_FECHA']}'    
+                       )
+                       ";
+        return $this->db->query($SQL_string);
+    }    
+    
+    
 
     /*     * ************************************************************************ */
 
@@ -303,64 +366,14 @@ class Profile_model extends CI_Model {
         return $SQL_string_query->result();
     }
 
-    public function insert_cv($data) {
-        $SQL_string = "INSERT INTO {$this->db->dbprefix('hojasdevida')}
-                      (
-                        HV_NOMBRES,
-                        HV_APELLIDOS,
-                        HV_TIPODOCUMENTO,
-                        HV_NUMERODOCUMENTO,
-                        HV_CORREO,
-                        HV_GENERO,
-                        HV_FECHADENACIMIENTO,
-                        HV_LUGARDENACIMIENTO,
-                        HV_DIRECCIONRESIDENCIA,
-                        HV_LUGARDERESIDENCIA,
-                        HV_TELEFONOFIJO,
-                        HV_CELULAR,
-                        HV_PROFESION
-                       )
-                      VALUES
-                       (
-                        '{$data['HV_NOMBRES']}',
-                        '{$data['HV_APELLIDOS']}',
-                        '{$data['HV_TIPODOCUMENTO']}',
-                        '{$data['HV_NUMERODOCUMENTO']}',
-                        '{$data['HV_CORREO']}',
-                        '{$data['HV_GENERO']}',
-                        '{$data['HV_FECHADENACIMIENTO']}',
-                        '{$data['HV_LUGARDENACIMIENTO']}',
-                        '{$data['HV_DIRECCIONRESIDENCIA']}',
-                        '{$data['HV_LUGARDERESIDENCIA']}',
-                        '{$data['HV_TELEFONOFIJO']}',
-                        '{$data['HV_CELULAR']}',
-                        '{$data['HV_PROFESION']}'
-                       )
-                       ";
-        return $this->db->query($SQL_string);
-    }
-
-    public function update_cv($data) {
-        $SQL_string = "UPDATE {$this->db->dbprefix('hojasdevida')} SET
-                        HV_NOMBRES = '{$data['HV_NOMBRES']}',
-                        HV_APELLIDOS = '{$data['HV_APELLIDOS']}',
-                        HV_TIPODOCUMENTO = '{$data['HV_TIPODOCUMENTO']}',
-                        HV_NUMERODOCUMENTO = '{$data['HV_NUMERODOCUMENTO']}',
-                        HV_CORREO = '{$data['HV_CORREO']}',
-                        HV_GENERO = '{$data['HV_GENERO']}',
-                        HV_FECHADENACIMIENTO = '{$data['HV_FECHADENACIMIENTO']}',
-                        HV_LUGARDENACIMIENTO = '{$data['HV_LUGARDENACIMIENTO']}',
-                        HV_DIRECCIONRESIDENCIA = '{$data['HV_DIRECCIONRESIDENCIA']}',
-                        HV_LUGARDERESIDENCIA = '{$data['HV_LUGARDERESIDENCIA']}',
-                        HV_TELEFONOFIJO = '{$data['HV_TELEFONOFIJO']}',
-                        HV_CELULAR = '{$data['HV_CELULAR']}',
-                        HV_ESTADO = '{$data['HV_ESTADO']}',
-                        HV_PROFESION = '{$data['HV_PROFESION']}'
+    public function update_obser($data) {
+        $SQL_string = "UPDATE {$this->db->dbprefix('asignacion_per')} SET
+                       EVA_OBSERVACION = '{$data['EVA_OBSERVACION']}'
                        WHERE
-                       HV_ID = {$data['HV_ID']}
+                       ASIGNACION_ID = {$data['ASIGNACION_ID']}
                        ";
         //echo $SQL_string;
-        return $SQL_string_query = $this->db->query($SQL_string);
+        $this->db->query($SQL_string);
     }
 
     public function update_user_password($user_password, $id_user) {

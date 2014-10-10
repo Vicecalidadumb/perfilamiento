@@ -61,6 +61,7 @@
                                         <th>Documento</th>
                                         <th>Pin</th>
                                         <th>Fecha de Ingreso</th>
+                                        <th>Ofertas</th>
                                         <th>Evaluado</th>
                                         <th>Opciones</th>
                                     </tr>

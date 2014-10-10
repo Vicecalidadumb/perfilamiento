@@ -516,3 +516,261 @@ function get_date_selectcut() {
 
     return $return;
 }
+
+function get_assess_option($option) {
+    switch ($option) {
+        case 1:
+            return array(1 => 'Cumple', 0 => 'No Cumple', 2 => 'No Aplica');
+            break;
+        case 2:
+            return array(1 => 'Cumple (10 Puntos)', 0 => 'No Cumple');
+            break;
+        case 4:
+            return array(1 => 'Cumple (10 Puntos)', 0 => 'No Cumple');
+            break;
+        default:
+            return array(1 => 'Cumple (10 Puntos)', 0 => 'No Cumple');
+            break;
+    }
+}
+
+function name_assess2_option($option, $id) {
+    switch ($option) {
+        case 2:
+            return $id . '_evafor';
+            break;
+        case 3:
+            return $id . '_evanofor';
+            break;
+        case 4:
+            return $id . '_evaexp';
+            break;
+    }
+}
+
+function score_assess1_option($option, $id, $post) {
+    switch ($option) {
+        case 2:
+            return ($post == 1) ? 10 : 0;
+            break;
+        case 4:
+            return ($post == 1) ? 10 : 0;
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
+function score_assess2_option($option, $id, $post) {
+    switch ($option) {
+        case 2:
+            $count = 0;
+            if (is_array($post)) {
+                foreach ($post as $value) {
+                    switch ($value) {
+                        case 1: $count+=6;
+                            break;
+                        case 2: $count+=7;
+                            break;
+                        case 3: $count+=8;
+                            break;
+                        case 4: $count+=2;
+                            break;
+                        case 5: $count+=3;
+                            break;
+                        case 6: $count+=4;
+                            break;
+                    }
+                }
+            }
+            return $count;
+            break;
+        case 3:
+            switch ($post) {
+                case 1: return 10;
+                    break;
+                case 2: return 8;
+                    break;
+                case 3: return 7;
+                    break;
+                case 4: return 6;
+                    break;
+                case 5: return 4;
+                    break;
+                case 6: return 3;
+                    break;
+                case 7: return 2;
+                    break;
+                default: return 0;
+                    break;
+            }
+            break;
+        case 4:
+            switch ($post) {
+                case 1: return 30;
+                    break;
+                case 2: return 25;
+                    break;
+                case 3: return 20;
+                    break;
+                case 4: return 15;
+                    break;
+                case 5: return 12;
+                    break;
+                case 6: return 5;
+                    break;
+                default: return 0;
+                    break;
+            }
+            break;
+    }
+}
+
+function scorevalue_assess2_option($option, $id, $post) {
+    switch ($option) {
+        case 2:
+            if (is_array($post)) {
+                return implode('|', $post);
+            } else {
+                return '';
+            }
+            break;
+        case 3:
+            switch ($post) {
+                case 1: return 1;
+                    break;
+                case 2: return 2;
+                    break;
+                case 3: return 3;
+                    break;
+                case 4: return 4;
+                    break;
+                case 5: return 5;
+                    break;
+                case 6: return 6;
+                    break;
+                case 7: return 7;
+                    break;
+                default: return '';
+                    break;
+            }
+            break;
+        case 4:
+            switch ($post) {
+                case 1: return 1;
+                    break;
+                case 2: return 2;
+                    break;
+                case 3: return 3;
+                    break;
+                case 4: return 4;
+                    break;
+                case 5: return 5;
+                    break;
+                case 6: return 6;
+                    break;
+                default: return '';
+                    break;
+            }
+            break;
+        default: return '';
+            break;
+    }
+}
+
+function get_assess2_option($option, $id, $value_1, $value_2) {
+    $var = '';
+    $array_value = explode('|', $value_2);
+    //echo print_r($array_value,true);
+    $checked1 = (in_array(1, $array_value)) ? 'checked' : '';
+    $checked2 = (in_array(2, $array_value)) ? 'checked' : '';
+    $checked3 = (in_array(3, $array_value)) ? 'checked' : '';
+    $checked4 = (in_array(4, $array_value)) ? 'checked' : '';
+    $checked5 = (in_array(5, $array_value)) ? 'checked' : '';
+    $checked6 = (in_array(6, $array_value)) ? 'checked' : '';
+    switch ($option) {
+        case 2:
+            $var.= '<div class="checkbox-list">
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_1" value="1" ' . $checked1 . '>
+                                <label for="' . $id . '_evafor_1" style="font-size: 10px !important;">
+                                    (6 ptos.) ESPECIALIZACI&Oacute;N ADICIONAL RELACIONADA CON LAS FUNCIONES
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_2" value="2" ' . $checked2 . '>
+                                <label for="' . $id . '_evafor_2" style="font-size: 10px !important;">
+                                    (7 ptos.) MAESTRIA RELACIONADA CON LAS FUNCIONES
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_3" value="3" ' . $checked3 . '>
+                                <label for="' . $id . '_evafor_3" style="font-size: 10px !important;">
+                                    (8 ptos.) DOCTORADO RELACIONADO CON LAS FUNCIONES
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_4" value="4" ' . $checked4 . '>
+                                <label for="' . $id . '_evafor_4" style="font-size: 10px !important;">
+                                    (2 ptos.) MAESTRIA RELACIONADA CON LA CARRERA
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_5" value="5" ' . $checked5 . '>
+                                <label for="' . $id . '_evafor_5" style="font-size: 10px !important;">
+                                    (3 ptos.) ESPECIALIZACIÓN ADICIONAL RELACIONADA CON LA CARRERA
+                                </label>
+                            </span>
+                        </div>
+                        <div>
+                            <span>
+                                <input type="checkbox" name="' . $id . '_evafor[]" id="' . $id . '_evafor_6" value="6" ' . $checked6 . '>
+                                <label for="' . $id . '_evafor_6" style="font-size: 10px !important;">
+                                    (4 ptos.) DOCTORADO RELACIONADO CON LA CARRERA
+                                </label>
+                            </span>
+                        </div>                        
+                    </div>';
+            return $var;
+            break;
+        case 3:
+            $value = $value_2;
+            $array_value = array(
+                '' => '--Sin Puntaje Extra--',
+                '1' => '(10 ptos.) 500 O MAS',
+                '2' => '(8 ptos.) ENTRE 300 y 499',
+                '3' => '(7 ptos.) ENTRE 100 y 299',
+                '4' => '(6 ptos.) ENTRE 50 y 99',
+                '5' => '(4 ptos.) ENTRE 9 y 49',
+                '6' => '(3 ptos.) MENOS DE 8',
+                '7' => '(2 ptos.) CURSOS EN LOS QUE LA ESPECIALIZACIÓN NO ESTABLEZCA INTENSIDAD HORARIA',
+            );
+            $var.= form_dropdown($id . '_evanofor', $array_value, $value, 'class="form-control" style="font-size: 11px !important;"');
+            return $var;
+            break;
+        case 4:
+            $value = $value_2;
+            $array_value = array(
+                '' => '--Sin Puntaje Extra--',
+                '1' => '(30 ptos.) 10 a&ntilde;os o mas',
+                '2' => '(25 ptos.) 5 a&ntilde;os mas que  lo exigido por el perfil',
+                '3' => '(20 ptos.) 4 a&ntilde;os mas que  lo exigido por el perfil',
+                '4' => '(15 ptos.) 3 a&ntilde;os mas que  lo exigido por el perfil',
+                '5' => '(12 ptos.) 2 a&ntilde;os mas que  lo exigido por el perfil',
+                '6' => '(5 ptos.)  1 a&ntilde;os mas que  lo exigido por el perfil',
+            );
+            $var.= form_dropdown($id . '_evaexp', $array_value, $value, 'class="form-control" style="font-size: 11px !important;"');
+            return $var;
+            break;
+    }
+}

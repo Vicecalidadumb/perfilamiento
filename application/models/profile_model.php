@@ -228,7 +228,7 @@ class Profile_model extends CI_Model {
                     $row[] = $contador;
                 } elseif ($aColumns[$i] == "IP") {
                     $row[] = ($aRow['EVALUACION']>0)?'<spam class="label label-success">SI</spam>':'<spam class="label label-default">NO</spam>';
-                    $row[] = '<a href="' . base_url('profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                    $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
                 } elseif ($aColumns[$i] == "USUARIO_ESTADO") {
                     $row[] = ($aRow['OFERTAS']>0)?'<spam class="label label-success">'.$aRow['OFERTAS'].'</spam>':'<spam class="label label-default">NO</spam>';
                 } elseif ($aColumns[$i] == "movement_state_confirmation") {

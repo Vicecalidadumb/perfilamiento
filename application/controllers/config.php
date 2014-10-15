@@ -37,7 +37,7 @@ class Config extends CI_Controller {
             $this->load->view('template/template', $data);
         } else {
             $this->session->set_flashdata(array('message' => 'Error, No se encontro el Rol', 'message_type' => 'error'));
-            redirect('config/roles/', 'refresh');
+            redirect('index.php/config/roles/', 'refresh');
         }
     }
 
@@ -49,7 +49,7 @@ class Config extends CI_Controller {
         $data['data'] = $this->input->post();
         $this->config_model->update_roles($data);
         $this->session->set_flashdata(array('message' => 'El Rol se Actualizo con Exito', 'message_type' => 'info'));
-        redirect('config/roles/' . $data['rol_id'], 'refresh');
+        redirect('index.php/config/roles/' . $data['rol_id'], 'refresh');
     }
 
 }

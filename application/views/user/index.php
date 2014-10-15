@@ -9,13 +9,13 @@
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('user') ?>">
+                    <a href="<?php echo base_url('index.php/user') ?>">
                         Usuarios
                     </a>
                 </li>                    
@@ -27,7 +27,7 @@
                     </button>
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li>
-                            <a href="<?php echo base_url('user/add') ?>">
+                            <a href="<?php echo base_url('index.php/user/add') ?>">
                                 Agregar un Nuevo Registro
                             </a>
                         </li>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="portlet-body">
 
-                        <a href="<?php echo base_url('user/add') ?>" class="btn blue">
+                        <a href="<?php echo base_url('index.php/user/add') ?>" class="btn blue">
                             Agregar Registro <i class="fa fa-plus"></i>
                         </a>
 
@@ -109,7 +109,7 @@
                                                 <?php echo $registro->USUARIO_FECHAINGRESO; ?>
                                             </td>                                         
                                             <td>
-                                                <a href="<?php echo base_url('user/edit/'.encrypt_id($registro->USUARIO_ID)) ?>" class="btn default btn-xs purple">
+                                                <a href="<?php echo base_url('index.php/user/edit/'.encrypt_id($registro->USUARIO_ID)) ?>" class="btn default btn-xs purple">
                                                     <i class="fa fa-edit"></i> 
                                                     Editar 
                                                 </a>                                              

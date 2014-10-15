@@ -85,10 +85,10 @@ class User extends CI_Controller {
             $insert = $this->user_model->insert_user($data);
             if ($insert) {
                 $this->session->set_flashdata(array('message' => 'Usuario agregado con exito', 'message_type' => 'info'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             } else {
                 $this->session->set_flashdata(array('message' => 'Error al insertar usuario', 'message_type' => 'error'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             }
         }
     }
@@ -108,7 +108,7 @@ class User extends CI_Controller {
             $this->load->view('template/template', $data);
         } else {
             $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-            redirect('user', 'refresh');
+            redirect('index.php/user', 'refresh');
         }
     }
 
@@ -144,7 +144,7 @@ class User extends CI_Controller {
                 $this->load->view('template/template', $data);
             } else {
                 $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             }
         } else {
             //SI EL USUARIO INGRESO UNA CONTRASEÑA SE ACTUALIZA EN EL SISTEMA
@@ -173,10 +173,10 @@ class User extends CI_Controller {
 
             if ($update) {
                 $this->session->set_flashdata(array('message' => 'Usuario editado con exito', 'message_type' => 'info'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             } else {
                 $this->session->set_flashdata(array('message' => 'Error al editar usuario', 'message_type' => 'warning'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             }
         }
     }

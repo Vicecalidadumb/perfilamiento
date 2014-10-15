@@ -24,13 +24,13 @@ class Login extends CI_Controller {
     }
 
     public function make_hash($var = 1) {
-        //FUNCION PARA GENERAR NUEVAS CONTRASEÑAS
+        //FUNCION PARA GENERAR NUEVAS CONTRASEï¿½AS
         echo make_hash($var);
     }
 
     public function verify() {
 
-        //RECOLECTAMOS LOS DATOS DE LOS CAMPOS DE USUARIO Y CONTRASEÑA
+        //RECOLECTAMOS LOS DATOS DE LOS CAMPOS DE USUARIO Y CONTRASEï¿½A
         $username = $this->input->post('username');
         $pass = strip_tags(utf8_decode($this->input->post('password')));
 
@@ -39,7 +39,7 @@ class Login extends CI_Controller {
 
         //VERIFICAMOS SI EL USUARIO EXISTE
         if (sizeof($user) > 0) {
-            //VERIFICAMOS QUE LA CONTRASEÑA SEA VALIDA
+            //VERIFICAMOS QUE LA CONTRASEï¿½A SEA VALIDA
             if (verifyHash($pass, $user[0]->USUARIO_PASSWORD) || check_password($pass, $user[0]->USUARIO_PASSWORD)) {
 
                 //OBTENER PERMISOS DE MODULOS PARA EL ROL ACTUAL
@@ -67,7 +67,7 @@ class Login extends CI_Controller {
                 
                 $this->session->set_userdata($newdata);
                 
-                redirect('desk', 'location');
+                redirect('index.php/desk', 'location');
             } else {
                 $this->session->set_flashdata(array('message' => '<strong>Error:</strong> Contrase&ntilde;a Incorrecta.', 'message_type' => 'danger'));
                 redirect('', 'refresh');
@@ -82,7 +82,7 @@ class Login extends CI_Controller {
         $this->session->set_userdata('logged_in', FALSE);
         $this->session->sess_destroy();
         //$this->load->view('login/index');
-        redirect('login', 'location');
+        redirect('index.php/login', 'location');
     }
 
 }

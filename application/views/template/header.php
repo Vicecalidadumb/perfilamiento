@@ -74,7 +74,7 @@
                         <ul class="dropdown-menu">
 
                             <li>
-                                <a href="<?php echo base_url('login/logout') ?>">
+                                <a href="<?php echo base_url('index.php/login/logout') ?>">
                                     <i class="icon-key"></i> 
                                     Salir 
                                 </a>

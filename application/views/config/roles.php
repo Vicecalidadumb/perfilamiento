@@ -9,13 +9,13 @@
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('config/roles') ?>">
+                    <a href="<?php echo base_url('index.php/config/roles') ?>">
                         Roles
                     </a>
                 </li>                    
@@ -27,7 +27,7 @@
                     </button>
                     <ul class="dropdown-menu pull-right" role="menu">
                         <li>
-                            <a href="<?php echo base_url('user/add') ?>">
+                            <a href="<?php echo base_url('index.php/user/add') ?>">
                                 Agregar un Nuevo Registro
                             </a>
                         </li>
@@ -66,7 +66,7 @@
                             <small style="color:#f37720 !important">
                                 <script>
                                     function redirect(route) {
-                                        window.location.href = "<?php echo base_url(""); ?>" + "config/roles/" + route
+                                        window.location.href = "<?php echo base_url(""); ?>" + "index.php/config/roles/" + route
                                     }
                                 </script>
                                 <?php
@@ -74,7 +74,7 @@
                                 ?>
                             </small>
                         </h1>  
-                        <?php echo form_open('config/roles_update', 'id="form_roles_update"') ?>
+                        <?php echo form_open('index.php/config/roles_update', 'id="form_roles_update"') ?>
                         <?php echo form_hidden('rol_id', $id_rol) ?>
                         <table class="table table-striped">
 

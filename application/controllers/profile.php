@@ -69,7 +69,7 @@ class Profile extends CI_Controller {
         $file = $document[0]->DOCUMENTO_NOMBRE . '.pdf';
         header('Content-type: application/pdf');
         header('Content-Disposition: inline; filename="' . $document[0]->INSCRIPCION_PIN . '_' . $document[0]->DOCUMENTO_FOLIO . '.pdf"');
-        readfile('../convocatorias/images/documentos/' . $file);
+        readfile('../images/documentos/' . $file);
     }
 
     public function insert() {
@@ -96,6 +96,7 @@ class Profile extends CI_Controller {
                         'CUMPLE_PUNTAJE' => '1',
                         'EVALUACION_FECHA' => $datetime
                     );
+                    //echo '<pre>'.print_r($data, true).'</pre>';
                     $this->profile_model->insert_assess($data);
                 }
                 if ($asses->TIPOEVALUACION_PUNTAJE) {
@@ -107,21 +108,21 @@ class Profile extends CI_Controller {
                         'ASIGNACION_ID' => $this->input->post('ASIGNACION_ID', TRUE),
                         'TIPOEVALUACION_ID' => $asses->TIPOEVALUACION_ID,
                         'EMPLEO_ID' => $oferta->EMPLEO_ID,
-                        'EVALUACION_CUMPLE' => '',
+                        'EVALUACION_CUMPLE' => '0',
                         'EVALUACION_PUNTAJE' => $puntaje,
                         'EVALUACION_PVALOR' => $puntaje_valor,
                         'EVALUACION_OBSERVACION' => $this->input->post($oferta->EMPLEO_ID . '_obser', TRUE),
                         'CUMPLE_PUNTAJE' => '2',
                         'EVALUACION_FECHA' => $datetime
                     );
-                    //echo print_r($data, true);
+                    //echo '<pre>'.print_r($data, true).'</pre>';
                     $this->profile_model->insert_assess($data);
                 }
             }
         }
 
         $this->session->set_flashdata(array('message' => 'Evaluacion Actualizada con Exito', 'message_type' => 'info'));
-        redirect('profile/assess/' . $this->input->post('INSCRIPCION_PIN', TRUE) . '/' . $this->input->post('ASIGNACION_ID', TRUE), 'refresh');
+        redirect('index.php/profile/assess/' . $this->input->post('INSCRIPCION_PIN', TRUE) . '/' . $this->input->post('ASIGNACION_ID', TRUE), 'refresh');
     }
 
     public function edit($id_cv) {
@@ -144,7 +145,7 @@ class Profile extends CI_Controller {
             $this->load->view('template/template', $data);
         } else {
             $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-            redirect('cv', 'refresh');
+            redirect('index.php/cv', 'refresh');
         }
     }
 
@@ -162,7 +163,7 @@ class Profile extends CI_Controller {
             $this->load->view('template/template', $data);
         } else {
             $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-            redirect('cv', 'refresh');
+            redirect('index.php/cv', 'refresh');
         }
     }
 
@@ -190,7 +191,7 @@ class Profile extends CI_Controller {
                 $error = $this->upload->display_errors();
                 //echo 'Error: ' . strip_tags($error);
                 $this->session->set_flashdata(array('message' => strip_tags($error), 'message_type' => 'danger'));
-                redirect('cv/documents/' . encrypt_id($id_cv), 'refresh');
+                redirect('index.php/cv/documents/' . encrypt_id($id_cv), 'refresh');
             } else {
 
                 $upload_data = $this->upload->data();
@@ -209,15 +210,15 @@ class Profile extends CI_Controller {
 
                 if ($insert) {
                     $this->session->set_flashdata(array('message' => 'Documento cargado con exito.', 'message_type' => 'info'));
-                    redirect('cv/documents/' . encrypt_id($id_cv), 'refresh');
+                    redirect('index.php/cv/documents/' . encrypt_id($id_cv), 'refresh');
                 } else {
                     $this->session->set_flashdata(array('message' => 'Error al insertar el documento', 'message_type' => 'error'));
-                    redirect('cv/documents/' . encrypt_id($id_cv), 'refresh');
+                    redirect('index.php/cv/documents/' . encrypt_id($id_cv), 'refresh');
                 }
             }
         } else {
             $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-            redirect('cv', 'refresh');
+            redirect('index.php/cv', 'refresh');
         }
     }
 
@@ -259,7 +260,7 @@ class Profile extends CI_Controller {
                 $this->load->view('template/template', $data);
             } else {
                 $this->session->set_flashdata(array('message' => 'Error al Consultar el Registro', 'message_type' => 'warning'));
-                redirect('user', 'refresh');
+                redirect('index.php/user', 'refresh');
             }
         } else {
             $data = array(
@@ -283,10 +284,10 @@ class Profile extends CI_Controller {
 
             if ($update) {
                 $this->session->set_flashdata(array('message' => 'Registro editado con exito', 'message_type' => 'info'));
-                redirect('cv', 'refresh');
+                redirect('index.php/cv', 'refresh');
             } else {
                 $this->session->set_flashdata(array('message' => 'Error al editar el Registro', 'message_type' => 'warning'));
-                redirect('cv', 'refresh');
+                redirect('index.php/cv', 'refresh');
             }
         }
     }

@@ -15,7 +15,7 @@
             <!--            class="start active open"-->
             <br>
             <li class="<?php echo strstr($content, 'desk') ? 'active open' : ''; ?>">
-                <a href="<?php echo base_url('desk'); ?>">
+                <a href="<?php echo base_url('index.php/desk'); ?>">
                     <i class="icon-home"></i>
                     <span class="title">Inicio</span>
                 </a>
@@ -31,13 +31,13 @@
                     </a>                   
                     <ul class="sub-menu">
                         <li>
-                            <a href="<?php echo base_url('user'); ?>">
+                            <a href="<?php echo base_url('index.php/user'); ?>">
                                 Listado de Usuarios
                             </a>
                         </li>
                         <?php if (know_permission_role('USU', 'permission_add')): ?>
                             <li>
-                                <a href="<?php echo base_url('user/add'); ?>">
+                                <a href="<?php echo base_url('index.php/user/add'); ?>">
                                     Agregar Usuario
                                 </a>
                             </li>
@@ -56,7 +56,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="<?php echo base_url('profile'); ?>">
+                            <a href="<?php echo base_url('index.php/profile'); ?>">
                                 Listado de Aspirantes
                             </a>
                         </li>
@@ -74,7 +74,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="<?php echo base_url('config/roles'); ?>">
+                            <a href="<?php echo base_url('index.php/config/roles'); ?>">
                                 Roles
                             </a>
                         </li>

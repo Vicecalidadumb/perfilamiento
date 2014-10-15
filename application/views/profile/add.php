@@ -16,13 +16,13 @@ foreach ($modalidades as $modalidad) {
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('profile') ?>">
+                    <a href="<?php echo base_url('index.php/profile') ?>">
                         Perfilamiento
                     </a>
                     <i class="fa fa-angle-right"></i>
@@ -129,7 +129,7 @@ foreach ($modalidades as $modalidad) {
                                                 ?>
                                                 <p>
                                                     <strong>Codigo/Region:</strong> 
-                                                    <a href="<?php echo base_url('profile/info_offer/' . encrypt_id($oferta->EMPLEO_ID)) ?>" class="label label-info" data-target="#ajax<?php echo $oferta->OFERTAINS_ID; ?>" data-toggle="modal">
+                                                    <a href="<?php echo base_url('index.php/profile/info_offer/' . encrypt_id($oferta->EMPLEO_ID)) ?>" class="label label-info" data-target="#ajax<?php echo $oferta->OFERTAINS_ID; ?>" data-toggle="modal">
                                                         <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
                                                         &nbsp;
                                                         <i class="fa fa-search"></i>
@@ -233,7 +233,7 @@ foreach ($modalidades as $modalidad) {
                                                                             <?php echo $document->DOCUMENTO_FECHA; ?>
                                                                         </td>
                                                                         <td>
-                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
+                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('index.php/profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
                                                                                 Ver 
                                                                             </a>
                                                                         </td>
@@ -297,7 +297,7 @@ foreach ($modalidades as $modalidad) {
                                                                             <?php echo $document->FECHA_GRADO; ?>
                                                                         </td>                                
                                                                         <td>
-                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
+                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('index.php/profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
                                                                                 Ver 
                                                                             </a>
                                                                         </td>
@@ -365,7 +365,7 @@ foreach ($modalidades as $modalidad) {
                                                                             <?php echo $document->FECHA_TERMINACION; ?>
                                                                         </td>                                 
                                                                         <td>
-                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
+                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('index.php/profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
                                                                                 Ver
                                                                             </a>
                                                                         </td>
@@ -439,7 +439,7 @@ foreach ($modalidades as $modalidad) {
                                                                             <?php echo $document->EMPLEO_ACTUAL; ?>
                                                                         </td>                                
                                                                         <td>
-                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
+                                                                            <a class="btn default btn-xs green-stripe" href="<?php echo base_url('index.php/profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
                                                                                 Ver 
                                                                             </a>
                                                                         </td>
@@ -456,7 +456,7 @@ foreach ($modalidades as $modalidad) {
                                         </div>
                                     </div>
                                     <br>
-                                    <form id="insert_contract" action="<?php echo base_url('profile/insert'); ?>" method="post" class="form-horizontal form-row-seperated">
+                                    <form id="insert_contract" action="<?php echo base_url('index.php/profile/insert'); ?>" method="post" class="form-horizontal form-row-seperated">
                                         <?php
                                         foreach ($ofertas as $oferta) {
                                             ?>

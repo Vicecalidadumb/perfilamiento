@@ -9,7 +9,7 @@
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                 </li>

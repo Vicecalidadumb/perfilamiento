@@ -9,13 +9,13 @@
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('profile') ?>">
+                    <a href="<?php echo base_url('index.php/profile') ?>">
                         Perfilamiento
                     </a>
                 </li>                    

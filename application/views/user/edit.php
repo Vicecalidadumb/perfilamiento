@@ -9,13 +9,13 @@
             <ul class="page-breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo base_url('desk') ?>">
+                    <a href="<?php echo base_url('index.php/desk') ?>">
                         Escritorio
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('user') ?>">
+                    <a href="<?php echo base_url('index.php/user') ?>">
                         Usuarios
                     </a>
                     <i class="fa fa-angle-right"></i>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form id="update_user" action="<?php echo base_url('user/update/' . encrypt_id($registro[0]->USUARIO_ID)); ?>" method="post" class="form-horizontal form-row-seperated">
+                        <form id="update_user" action="<?php echo base_url('index.php/user/update/' . encrypt_id($registro[0]->USUARIO_ID)); ?>" method="post" class="form-horizontal form-row-seperated">
                             <div class="form-body">
 
                                 <div class="col-md-6">
@@ -239,7 +239,7 @@
                                 <div class="row">
                                     <div class="col-md-offset-3 col-md-9">
                                         <button type="submit" class="btn green">Guardar</button>
-                                        <a href="<?php echo base_url('user') ?>">
+                                        <a href="<?php echo base_url('index.php/user') ?>">
                                             <button type="button" class="btn default">Cancelar</button>
                                         </a>
                                     </div>

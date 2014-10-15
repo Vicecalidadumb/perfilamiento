@@ -79,7 +79,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- BEGIN LOGIN -->
         <div class="content">
             <!-- BEGIN LOGIN FORM -->
-            <?php echo form_open('login/verify', 'class="form-signin" role="form" autocomplete="off"'); ?>
+            <?php echo form_open('index.php/login/verify', 'class="form-signin" role="form" autocomplete="off"'); ?>
             <h3 class="form-title">Ingreso al Sistema</h3>
             <div class="alert alert-danger display-hide">
                 <button class="close" data-close="alert"></button>

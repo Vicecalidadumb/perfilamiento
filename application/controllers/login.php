@@ -17,7 +17,7 @@ class Login extends CI_Controller {
     public function index() {
         //FUNCION PRINCIPAL PARA EL LOGIN - CARGA LA VISTA LOGIN/INDEX.PHP
         if ($this->session->userdata('logged_in')) {
-            redirect('desk', 'refresh');
+            redirect('index.php/desk', 'refresh');
         } else {
             $this->load->view('login/index');
         }

@@ -49,7 +49,7 @@ class Profile_model extends CI_Model {
     public function get_document_user($INSCRIPCION_PIN, $DOCUMENTO_ID) {
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('documento')}
-                      WHERE INSCRIPCION_PIN = '{$INSCRIPCION_PIN}' AND DOCUMENTO_ID = '{$DOCUMENTO_ID}' AND DOCUMENTO_ESTADO=1";
+                      WHERE INSCRIPCION_PIN = '{$INSCRIPCION_PIN}' AND DOCUMENTO_ID = '{$DOCUMENTO_ID}'";
         //echo $SQL_string;
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();

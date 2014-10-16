@@ -222,7 +222,7 @@ foreach ($modalidades as $modalidad) {
                                                                             break;
                                                                     }
                                                                     ?>
-                                                                    <tr>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?> >
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -234,7 +234,7 @@ foreach ($modalidades as $modalidad) {
                                                                         </td>
                                                                         <td>
                                                                             <a class="btn default btn-xs green-stripe" href="<?php echo base_url('index.php/profile/view_document/' . $document->INSCRIPCION_PIN . '/' . $document->DOCUMENTO_ID) ?>" target="_blank">
-                                                                                Ver 
+                                                                                Ver
                                                                             </a>
                                                                         </td>
                                                                     </tr>
@@ -280,7 +280,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 2:
                                                                     ?>
-                                                                    <tr>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -345,7 +345,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 3:
                                                                     ?>
-                                                                    <tr>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -419,7 +419,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 4:
                                                                     ?>
-                                                                    <tr>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>

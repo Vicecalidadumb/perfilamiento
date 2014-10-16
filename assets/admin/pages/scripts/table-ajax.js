@@ -23,6 +23,7 @@ var TableAjax = function() {
             loadingMessage: 'Cargando Datos...',
             dataTable: {
                 "sPaginationType": "full_numbers",
+                "processing": true,
                 "dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>f>r><'table-scrollable't><'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>",
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],

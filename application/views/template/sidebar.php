@@ -82,6 +82,24 @@
                 </li>
             <?php endif; ?>
 
+            <?php if (know_permission_role('EST', 'permission_view')): ?>
+                <li class="<?php echo strstr($content, 'statistics') ? 'active open' : ''; ?>">
+                    <a href="javascript:;">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title">Reportes</span>
+                        <?php echo strstr($content, 'statistics') ? '<span class="selected"></span>' : ''; ?>
+                        <span class="arrow <?php echo strstr($content, 'statistics') ? 'open' : ''; ?>"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="<?php echo base_url('index.php/statistics/reporte1'); ?>">
+                                Evaluados
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            <?php endif; ?>
+
         </ul>
         <!-- END SIDEBAR MENU -->
     </div>

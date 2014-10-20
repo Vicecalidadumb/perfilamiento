@@ -69,5 +69,10 @@ License: You must have a valid license purchased only from themeforest(the above
             var base_url_js = '<?php echo base_url(); ?>';
         </script>
 
+        <style>
+            a:visited{
+                color:red !important;
+            }
+        </style>
     </head>
     <!-- END HEAD -->

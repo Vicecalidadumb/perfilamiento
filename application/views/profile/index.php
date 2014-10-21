@@ -57,7 +57,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nombres</th>
-                                        <th>Apellidos</th>
+                                        <th>Ciudad</th>
                                         <th>Documento</th>
                                         <th>Pin</th>
                                         <th>Fecha de Ingreso</th>

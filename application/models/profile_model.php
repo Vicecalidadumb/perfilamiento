@@ -122,7 +122,8 @@ class Profile_model extends CI_Model {
             'INSCRIPCION_PIN',
             'USUARIO_FECHAINGRESO',
             'USUARIO_ESTADO',
-            'IP'
+            'IP',
+            'USUARIO_LUGARDERESIDENCIA'
         );
         //LLAVE PRIMARIA
         $sIndexColumn = "USUARIO_ID";
@@ -180,7 +181,12 @@ class Profile_model extends CI_Model {
                     WHERE e.ASIGNACION_ID = cargue_asignacion_per.ASIGNACION_ID
                     AND e.EVALUACION_ESTADO=1
                     ) EVALUACION,
-                    ASIGNACION_ID
+                    ASIGNACION_ID,
+                    (
+                    SELECT MUNICIPIO_NOMBRE
+                    FROM {$this->db->dbprefix('municipios')} m
+                    WHERE CONCAT(m.DEPARTAMENTO_ID,MUNICIPIO_ID) = cargue_usuarios.USUARIO_LUGARDERESIDENCIA LIMIT 1
+                    ) CIUDAD
                     FROM  $sTable , cargue_inscripcion_pin, cargue_asignacion_per, cargue_usuarios_sistema
                     WHERE
                     cargue_inscripcion_pin.USUARIO_NUMERODOCUMENTO = cargue_usuarios.USUARIO_NUMERODOCUMENTO
@@ -229,9 +235,11 @@ class Profile_model extends CI_Model {
                 } elseif ($aColumns[$i] == "IP") {
                     $row[] = ($aRow['EVALUACION']>0)?'<spam class="label label-success">SI</spam>':'<spam class="label label-default">NO</spam>';
                     $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                } elseif ($aColumns[$i] == "USUARIO_APELLIDOS") {
+                    $row[] = $aRow['CIUDAD'];
                 } elseif ($aColumns[$i] == "USUARIO_ESTADO") {
                     $row[] = ($aRow['OFERTAS']>0)?'<spam class="label label-success">'.$aRow['OFERTAS'].'</spam>':'<spam class="label label-default">NO</spam>';
-                } elseif ($aColumns[$i] == "movement_state_confirmation") {
+                }elseif ($aColumns[$i] == "movement_state_confirmation") {
                     switch ($aRow[$aColumns[$i]]) {
                         case 0: $row[] = '<center><div class="icon-thumbs-down" style="color: rgb(214, 56, 56);cursor: pointer;" title="Sin Confirmar"></div></center>';
                             break;

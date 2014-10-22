@@ -189,7 +189,8 @@ class Profile_model extends CI_Model {
                     ) CIUDAD
                     FROM  $sTable , cargue_inscripcion_pin, cargue_asignacion_per, cargue_usuarios_sistema
                     WHERE
-                    cargue_inscripcion_pin.USUARIO_NUMERODOCUMENTO = cargue_usuarios.USUARIO_NUMERODOCUMENTO
+                    cargue_asignacion_per.ASIGNACION_ESTADO=1
+                    AND cargue_inscripcion_pin.USUARIO_NUMERODOCUMENTO = cargue_usuarios.USUARIO_NUMERODOCUMENTO
                     AND cargue_asignacion_per.USUARIO_ID = cargue_usuarios_sistema.USUARIO_ID 
                     AND cargue_asignacion_per.INSCRIPCION_PIN = cargue_inscripcion_pin.INSCRIPCION_PIN
                     AND cargue_usuarios_sistema.USUARIO_ID = " . $this->session->userdata('USUARIO_ID') . "

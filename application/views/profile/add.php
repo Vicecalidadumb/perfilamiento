@@ -23,13 +23,21 @@ foreach ($modalidades as $modalidad) {
                 </li>
                 <li>
                     <a href="<?php echo base_url('index.php/profile') ?>">
-                        Perfilamiento
+                        <?php if ($this->session->userdata('ID_TIPO_USU') != 3) { ?>
+                            Perfilamiento
+                        <?php } else { ?>
+                            Aspirantes
+                        <?php } ?>
                     </a>
                     <i class="fa fa-angle-right"></i>
                 </li>  
                 <li>
                     <a href="">
-                        Evaluar
+                        <?php if ($this->session->userdata('ID_TIPO_USU') != 3) { ?>
+                            Evaluar
+                        <?php } else { ?>
+                            Ver
+                        <?php } ?>                        
                     </a>
                 </li>                
             </ul>           
@@ -120,23 +128,56 @@ foreach ($modalidades as $modalidad) {
                                             </p>     
                                             <br>
                                         </div>
-                                        <div class="col-md-6 profile-info">
-                                            <p style="color:red">
-                                                OFERTAS APLICADAS POR EL ASPIRANTE
-                                            </p>                                        
-                                            <?php
-                                            foreach ($ofertas as $oferta) {
-                                                ?>
+                                        <?php if ($this->session->userdata('ID_TIPO_USU') != 3) { ?>
+                                            <div class="col-md-6 profile-info">
+                                                <p style="color:red">
+                                                    OFERTAS APLICADAS POR EL ASPIRANTE
+                                                </p>                                        
+                                                <?php
+                                                foreach ($ofertas as $oferta) {
+                                                    ?>
+                                                    <p>
+                                                        <strong>Codigo/Region:</strong> 
+                                                        <a href="<?php echo base_url('index.php/profile/info_offer/' . encrypt_id($oferta->EMPLEO_ID)) ?>" class="label label-info" data-target="#ajax<?php echo $oferta->OFERTAINS_ID; ?>" data-toggle="modal">
+                                                            <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
+                                                            &nbsp;
+                                                            <i class="fa fa-search"></i>
+                                                        </a>
+                                                        &nbsp;&nbsp;
+                                                        <a target="_blank" href="http://convocatorias.umb.edu.co/ofertas/informacion/<?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT); ?>" class="btn red btn-xs"><i class="fa fa-external-link"></i></a>
+                                                    <div class="modal fade" id="ajax<?php echo $oferta->OFERTAINS_ID; ?>" role="basic" aria-hidden="true" >
+                                                        <div class="page-loading page-loading-boxed" style="display: block">
+                                                            <img src="<?php echo base_url('/assets/global/img/loading-spinner-grey.gif') ?>" alt="" class="loading">
+                                                            <span>
+                                                                &nbsp;&nbsp;Cargando Informaci&oacute;n... 
+                                                            </span>
+                                                        </div>
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                            </div>
+                                                        </div>
+                                                    </div> 
+                                                    </p>                                                     
+                                                    <?php
+                                                }
+                                                ?>    
+                                                <br>
+                                            </div>                                        
+                                        <?php } else { ?>
+                                            <div class="col-md-6 profile-info">
+                                                <p style="color:red">
+                                                    OFERTA DEL ASPIRANTE
+                                                </p>
                                                 <p>
                                                     <strong>Codigo/Region:</strong> 
-                                                    <a href="<?php echo base_url('index.php/profile/info_offer/' . encrypt_id($oferta->EMPLEO_ID)) ?>" class="label label-info" data-target="#ajax<?php echo $oferta->OFERTAINS_ID; ?>" data-toggle="modal">
-                                                        <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
+                                                    <a href="<?php echo base_url('index.php/profile/info_offer/' . encrypt_id(get_pin_select($registro[0]->INSCRIPCION_PIN, 0))) ?>" class="label label-info" data-target="#ajax<?php echo get_pin_select($registro[0]->INSCRIPCION_PIN, 0); ?>" data-toggle="modal">
+                                                        <?php echo 'UMB2014' . str_pad(get_pin_select($registro[0]->INSCRIPCION_PIN, 0), 4, "0", STR_PAD_LEFT) . ' / ' . get_reg_select($registro[0]->INSCRIPCION_PIN, get_pin_select($registro[0]->INSCRIPCION_PIN, 0)) ?>
                                                         &nbsp;
                                                         <i class="fa fa-search"></i>
                                                     </a>
                                                     &nbsp;&nbsp;
-                                                    <a target="_blank" href="http://convocatorias.umb.edu.co/ofertas/informacion/<?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT);  ?>" class="btn red btn-xs"><i class="fa fa-external-link"></i></a>
-                                                <div class="modal fade" id="ajax<?php echo $oferta->OFERTAINS_ID; ?>" role="basic" aria-hidden="true" >
+                                                    <a target="_blank" href="http://convocatorias.umb.edu.co/ofertas/informacion/<?php echo 'UMB2014' . str_pad(get_pin_select($registro[0]->INSCRIPCION_PIN, 0), 4, "0", STR_PAD_LEFT); ?>" class="btn red btn-xs"><i class="fa fa-external-link"></i></a>
+                                                <div class="modal fade" id="ajax<?php echo get_pin_select($registro[0]->INSCRIPCION_PIN, 0); ?>" role="basic" aria-hidden="true" >
                                                     <div class="page-loading page-loading-boxed" style="display: block">
                                                         <img src="<?php echo base_url('/assets/global/img/loading-spinner-grey.gif') ?>" alt="" class="loading">
                                                         <span>
@@ -149,11 +190,10 @@ foreach ($modalidades as $modalidad) {
                                                     </div>
                                                 </div> 
                                                 </p>                                                     
-                                                <?php
-                                            }
-                                            ?>    
-                                            <br>
-                                        </div>                                        
+
+                                                <br>
+                                            </div>                                         
+                                        <?php } ?>
                                     </div>
 
                                 </div>
@@ -222,7 +262,7 @@ foreach ($modalidades as $modalidad) {
                                                                             break;
                                                                     }
                                                                     ?>
-                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?> >
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO == 0) ? 'style="color:red"' : '' ?> >
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -280,7 +320,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 2:
                                                                     ?>
-                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO == 0) ? 'style="color:red"' : '' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -345,7 +385,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 3:
                                                                     ?>
-                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO == 0) ? 'style="color:red"' : '' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -419,7 +459,7 @@ foreach ($modalidades as $modalidad) {
                                                             switch ($document->TIPO_DOCUMENTO_ID) {
                                                                 case 4:
                                                                     ?>
-                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO==0)?'style="color:red"':'' ?>>
+                                                                    <tr <?php echo ($document->DOCUMENTO_ESTADO == 0) ? 'style="color:red"' : '' ?>>
                                                                         <td>
                                                                             <?php echo $document->DOCUMENTO_FOLIO; ?>
                                                                         </td>
@@ -456,138 +496,140 @@ foreach ($modalidades as $modalidad) {
                                         </div>
                                     </div>
                                     <br>
-                                    <form id="insert_contract" action="<?php echo base_url('index.php/profile/insert'); ?>" method="post" class="form-horizontal form-row-seperated">
-                                        <?php
-                                        foreach ($ofertas as $oferta) {
-                                            ?>
-                                            <?php echo form_hidden('ASIGNACION_ID', $ASIGNACION_ID); ?>
-                                            <?php echo form_hidden('INSCRIPCION_PIN', $INSCRIPCION_PIN); ?>
-                                            <div class="portlet box <?php echo (count($scores) > 0) ? 'blue' : 'red' ?>">
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <i class="fa fa-check-circle-o"></i>
-                                                        Evaluaci&oacute;n para Oferta 
-                                                        <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
-                                                    </div>
-                                                    <div class="tools">
-                                                        <a href="javascript:;" class="collapse">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="portlet-body">
-                                                    <div class="form-body">
-                                                        <table class="table table-striped table-bordered table-advance table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>
-                                                                        Evaluaci&oacute;n
-                                                                    </th>
-                                                                    <th>
-                                                                        Cumple RM
-                                                                    </th>
-                                                                    <th>
-                                                                        Putaje Extra
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>                                                        
-                                                            <?php
-                                                            foreach ($assess as $asses) {
-                                                                ?>
-                                                                <tr>
-                                                                    <td>
-                                                                        <?php echo $asses->TIPOEVALUACION_NOMBRE; ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php if ($asses->TIPOEVALUACION_CUMPLE) { ?>
-                                                                            <div class="form-group">
-                                                                                <div class="col-md-12">
-                                                                                    <?php
-                                                                                    $value = 0;
-                                                                                    foreach ($scores as $score) {
-                                                                                        if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 1) {
-                                                                                            $value = $score->EVALUACION_CUMPLE;
-                                                                                        }
-                                                                                    }
-                                                                                    ?>
-                                                                                    <?php echo form_dropdown($oferta->OFERTAINS_ID . '_cumple_' . $asses->TIPOEVALUACION_ID, get_assess_option($asses->TIPOEVALUACION_ID), $value, 'class="form-control" style="font-size: 11px !important;"'); ?>
-                                                                                </div>
-                                                                            </div>
-                                                                        <?php } ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php if ($asses->TIPOEVALUACION_PUNTAJE) { ?>
-                                                                            <?php
-                                                                            $value_1 = '';
-                                                                            $value_2 = '';
-                                                                            foreach ($scores as $score) {
-                                                                                if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 2) {
-                                                                                    $value_1 = $score->EVALUACION_PUNTAJE;
-                                                                                    $value_2 = $score->EVALUACION_PVALOR;
-                                                                                }
-                                                                            }
-                                                                            //echo $value_1.'<br>';
-                                                                            //echo $value_2.'<br>';
-                                                                            ?>
-                                                                            <div class="form-group">
-                                                                                <div class="col-md-12">
-                                                                                    <?php echo get_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $value_1, $value_2); ?>
-                                                                                </div>
-                                                                            </div>
-                                                                        <?php } ?>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php
-                                                            }
-                                                            ?>
-                                                        </table>
-                                                    </div>
-                                                    <div class="form-actions">
-                                                        <div class="row">
-                                                            <div class="col-md-8">
-                                                                <div class="form-group">
-                                                                    <label class="col-md-3 control-label">Observaciones</label>
-                                                                    <div class="col-md-9">
-                                                                        <?php
-                                                                        $value = '';
-                                                                        foreach ($scores as $score) {
-                                                                            if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
-                                                                                $value = $score->EVALUACION_OBSERVACION;
-                                                                            }
-                                                                        }
-                                                                        ?>                                                                        
-                                                                        <textarea name="<?php echo $oferta->EMPLEO_ID . '_obser' ?>" class="form-control" rows="3"><?php echo $value; ?></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <button type="submit" class="btn green">Guardar Todo</button>
-                                                            </div>
+                                    <?php if ($this->session->userdata('ID_TIPO_USU') != 3): ?>
+                                        <form id="insert_contract" action="<?php echo base_url('index.php/profile/insert'); ?>" method="post" class="form-horizontal form-row-seperated">
+                                            <?php
+                                            foreach ($ofertas as $oferta) {
+                                                ?>
+                                                <?php echo form_hidden('ASIGNACION_ID', $ASIGNACION_ID); ?>
+                                                <?php echo form_hidden('INSCRIPCION_PIN', $INSCRIPCION_PIN); ?>
+                                                <div class="portlet box <?php echo (count($scores) > 0) ? 'blue' : 'red' ?>">
+                                                    <div class="portlet-title">
+                                                        <div class="caption">
+                                                            <i class="fa fa-check-circle-o"></i>
+                                                            Evaluaci&oacute;n para Oferta 
+                                                            <?php echo 'UMB2014' . str_pad($oferta->EMPLEO_ID, 4, "0", STR_PAD_LEFT) . ' / ' . $oferta->REGIONES_ ?>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
+                                                        <div class="tools">
+                                                            <a href="javascript:;" class="collapse">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body">
+                                                        <div class="form-body">
+                                                            <table class="table table-striped table-bordered table-advance table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>
+                                                                            Evaluaci&oacute;n
+                                                                        </th>
+                                                                        <th>
+                                                                            Cumple RM
+                                                                        </th>
+                                                                        <th>
+                                                                            Putaje Extra
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>                                                        
                                                                 <?php
-                                                                if (count($scores) > 0) {
-                                                                    $total = 0;
-                                                                    foreach ($scores as $score) {
-                                                                        if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
-                                                                            $total+= $score->EVALUACION_PUNTAJE;
-                                                                        }
-                                                                    }
-                                                                    echo '  <span class="label label-warning">
-                                                                                Total puntaje obtenido: ' . $total . '
-                                                                            </span>';
+                                                                foreach ($assess as $asses) {
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <?php echo $asses->TIPOEVALUACION_NOMBRE; ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if ($asses->TIPOEVALUACION_CUMPLE) { ?>
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-12">
+                                                                                        <?php
+                                                                                        $value = 0;
+                                                                                        foreach ($scores as $score) {
+                                                                                            if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 1) {
+                                                                                                $value = $score->EVALUACION_CUMPLE;
+                                                                                            }
+                                                                                        }
+                                                                                        ?>
+                                                                                        <?php echo form_dropdown($oferta->OFERTAINS_ID . '_cumple_' . $asses->TIPOEVALUACION_ID, get_assess_option($asses->TIPOEVALUACION_ID), $value, 'class="form-control" style="font-size: 11px !important;"'); ?>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php if ($asses->TIPOEVALUACION_PUNTAJE) { ?>
+                                                                                <?php
+                                                                                $value_1 = '';
+                                                                                $value_2 = '';
+                                                                                foreach ($scores as $score) {
+                                                                                    if ($score->TIPOEVALUACION_ID == $asses->TIPOEVALUACION_ID && $score->EMPLEO_ID == $oferta->EMPLEO_ID && $score->CUMPLE_PUNTAJE == 2) {
+                                                                                        $value_1 = $score->EVALUACION_PUNTAJE;
+                                                                                        $value_2 = $score->EVALUACION_PVALOR;
+                                                                                    }
+                                                                                }
+                                                                                //echo $value_1.'<br>';
+                                                                                //echo $value_2.'<br>';
+                                                                                ?>
+                                                                                <div class="form-group">
+                                                                                    <div class="col-md-12">
+                                                                                        <?php echo get_assess2_option($asses->TIPOEVALUACION_ID, $oferta->OFERTAINS_ID, $value_1, $value_2); ?>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <?php } ?>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <?php
                                                                 }
                                                                 ?>
+                                                            </table>
+                                                        </div>
+                                                        <div class="form-actions">
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-3 control-label">Observaciones</label>
+                                                                        <div class="col-md-9">
+                                                                            <?php
+                                                                            $value = '';
+                                                                            foreach ($scores as $score) {
+                                                                                if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
+                                                                                    $value = $score->EVALUACION_OBSERVACION;
+                                                                                }
+                                                                            }
+                                                                            ?>                                                                        
+                                                                            <textarea name="<?php echo $oferta->EMPLEO_ID . '_obser' ?>" class="form-control" rows="3"><?php echo $value; ?></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <button type="submit" class="btn green">Guardar Todo</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <?php
+                                                                    if (count($scores) > 0) {
+                                                                        $total = 0;
+                                                                        foreach ($scores as $score) {
+                                                                            if ($score->EMPLEO_ID == $oferta->EMPLEO_ID) {
+                                                                                $total+= $score->EVALUACION_PUNTAJE;
+                                                                            }
+                                                                        }
+                                                                        echo '  <span class="label label-warning">
+                                                                                Total puntaje obtenido: ' . $total . '
+                                                                            </span>';
+                                                                    }
+                                                                    ?>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>  
-                                            <br>
-                                            <?php
-                                        }
-                                        ?>  
-                                    </form>
+                                                </div>  
+                                                <br>
+                                                <?php
+                                            }
+                                            ?>  
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>                        

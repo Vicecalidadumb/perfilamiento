@@ -17,6 +17,24 @@ class Profile_model extends CI_Model {
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
+    
+    public function get_users($USUARIO_ID) {
+        $Where = '';
+        if ($USUARIO_ID != 'ALL') {
+            $Where = "AND a.USUARIO_ID=$USUARIO_ID";
+        }
+        $SQL_string = "SELECT *
+                      FROM {$this->db->dbprefix('usuarios')} u,
+                      {$this->db->dbprefix('inscripcion_pin')} i,
+                      {$this->db->dbprefix('asignacion_per')} a
+                      WHERE 
+                      i.USUARIO_NUMERODOCUMENTO = u.USUARIO_NUMERODOCUMENTO
+                      AND a.INSCRIPCION_PIN = i.INSCRIPCION_PIN
+                      $Where
+                      ORDER BY u.USUARIO_NOMBRES";
+        $SQL_string_query = $this->db->query($SQL_string);
+        return $SQL_string_query->result();
+    }    
 
     public function get_applicantsdocuments_iduser($statedocument, $USUARIO_ID, $INSCRIPCION_PIN) {
         $Where = '';

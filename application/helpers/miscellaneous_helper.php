@@ -774,3 +774,146 @@ function get_assess2_option($option, $id, $value_1, $value_2) {
             break;
     }
 }
+
+function get_pin_select($pin, $link = 1) {
+    $return = '';
+    switch ($pin) {
+        case '1163546': $return = '21';
+            break;
+        case '1163146': $return = '21';
+            break;
+        case '1166814': $return = '21';
+            break;
+        case '1159880': $return = '23';
+            break;
+        case '1160252': $return = '23';
+            break;
+        case '1160096': $return = '23';
+            break;
+        case '1161432': $return = '23';
+            break;
+        case '1162086': $return = '23';
+            break;
+        case '1165568': $return = '23';
+            break;
+        case '1165174': $return = '23';
+            break;
+        case '1160140': $return = '18';
+            break;
+        case '1160845': $return = '18';
+            break;
+        case '1167961': $return = '18';
+            break;
+        case '1161017': $return = '18';
+            break;
+        case '1163726': $return = '32';
+            break;
+        case '1164693': $return = '32';
+            break;
+        case '1164724': $return = '32';
+            break;
+        case '1167993': $return = '32';
+            break;
+        default: return '';
+            break;
+    }
+    if ($link == 1) {
+        return '<a target="_blank" href="http://convocatorias.umb.edu.co/ofertas/informacion/UMB2014' . $return . '">UMB2014' . $return . '</a>';
+    } else {
+        return $return;
+    }
+}
+
+function get_reg_select($pin, $empleo) {
+    $consulta = $pin . '_' . $empleo;
+    $return = '';
+    switch ($consulta) {
+        case '1163546_21': $return = 'BOGOTA D.C';
+            break;
+        case '1163146_21': $return = 'ANTIOQUIA';
+            break;
+        case '1166814_21': $return = 'ATLANTICO';
+            break;
+        case '1159880_23': $return = 'HUILA';
+            break;
+        case '1160252_23': $return = 'CAQUETA';
+            break;
+        case '1160096_23': $return = 'CESAR';
+            break;
+        case '1161432_23': $return = 'CHOC&Oacute;';
+            break;
+        case '1162086_23': $return = 'HUILA';
+            break;
+        case '1165568_23': $return = 'OCA&Ntilde;A';
+            break;
+        case '1165174_23': $return = 'ARAUCA';
+            break;
+        case '1160140_18': $return = 'ATLANTICO';
+            break;
+        case '1160845_18': $return = 'ANTIOQUIA';
+            break;
+        case '1167961_18': $return = 'ATLANTICO';
+            break;
+        case '1161017_18': $return = 'VALLE DEL CAUCA';
+            break;
+        case '1163726_32': $return = 'META';
+            break;
+        case '1164693_32': $return = 'LA GUAJIRA';
+            break;
+        case '1164724_32': $return = 'URABA';
+            break;
+        case '1167993_32': $return = 'META';
+            break;
+        default: return '';
+            break;
+    }
+    return $return;
+}
+
+function get_puesto_select($pin, $empleo) {
+    $consulta = $pin . '_' . $empleo;
+    $return = '';
+    switch ($consulta) {
+        case '1160140_18': $return = '4';
+            break;
+        case '1161017_18': $return = '3';
+            break;
+        case '1167961_18': $return = '2';
+            break;
+        case '1160845_18': $return = '1';
+            break;
+        case '1166814_21': $return = '3';
+            break;
+        case '1163146_21': $return = '2';
+            break;
+        case '1163546_21': $return = '1';
+            break;
+        case '1165174_23': $return = '7';
+            break;
+        case '1161432_23': $return = '6';
+            break;
+        case '1159880_23': $return = '5';
+            break;
+        case '1160252_23': $return = '4';
+            break;
+        case '1162086_23': $return = '3';
+            break;
+        case '1160096_23': $return = '2';
+            break;
+        case '1165568_23': $return = '1';
+            break;
+        case '1164724_32': $return = '4';
+            break;
+        case '1167993_32': $return = '3';
+            break;
+        case '1163726_32': $return = '2';
+            break;
+        case '1164693_32': $return = '1';
+            break;
+    }
+    return $return;
+}
+
+function get_select() {
+    return 18;
+}

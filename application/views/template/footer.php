@@ -86,6 +86,7 @@
 
 <script src="<?php echo base_url('/assets/global/scripts/datatable.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo base_url('/assets/admin/pages/scripts/table-ajax.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('/assets/admin/pages/scripts/table-advanced.js'); ?>"></script>
 
 
 
@@ -98,6 +99,7 @@
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
         TableAjax.init();
+        TableAdvanced.init();
         ComponentsPickers.init();
         QuickSidebar.init() // init quick sidebar
         Index.init();

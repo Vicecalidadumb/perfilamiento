@@ -50,7 +50,13 @@
                 <li class="<?php echo strstr($content, 'profile') ? 'active open' : ''; ?>">
                     <a href="javascript:;">
                         <i class="icon-graduation"></i>
-                        <span class="title">Perfilamiento</span>
+                        <span class="title">
+                            <?php if ($this->session->userdata('ID_TIPO_USU') != 3) { ?>
+                                Perfilamiento
+                            <?php } else { ?>
+                                Aspirantes
+                            <?php } ?>
+                        </span>
                         <?php echo strstr($content, 'profile') ? '<span class="selected"></span>' : ''; ?>
                         <span class="arrow <?php echo strstr($content, 'user') ? 'open' : ''; ?>"></span>
                     </a>

@@ -22,10 +22,16 @@ class Profile extends CI_Controller {
     public function index() {
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_view');
-
+        
+        if($this->session->userdata('ID_TIPO_USU')==3){
+            $data['registros'] = $this->profile_model->get_users($this->session->userdata('USUARIO_ID'));
+            $data['content'] = 'profile/index_c';
+        }else{
+           $data['content'] = 'profile/index'; 
+        }
 
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Hojas de Vida.';
-        $data['content'] = 'profile/index';
+        
         $this->load->view('template/template', $data);
     }
 

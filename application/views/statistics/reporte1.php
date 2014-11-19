@@ -1,7 +1,7 @@
 <!-- BEGIN CONTENT -->
-<!--<div class="page-content-wrapper">
+<div class="page-content-wrapper">
     <div class="page-content">
-         BEGIN PAGE HEADER
+        <!-- BEGIN PAGE HEADER-->
         <h3 class="page-title">
             Listado de <small>Empleos</small>
         </h3>
@@ -21,21 +21,29 @@
                 </li>                    
             </ul>           
         </div>
-         END PAGE HEADER
+        <!-- END PAGE HEADER-->
 
         <div class="clearfix">
         </div>
 
         <?php
-        //echo count($empleos) . '<br>';
-        //echo count($documents);
+        echo count($empleos) . '<br>';
+        echo count($documents);
         //echo '<pre>'.print_r($documents,true).'</pre>';
         ?>
-    
+
+
+        <div class="col-md-12 col-sm-12">
+            <?php if ($this->session->flashdata('message')) { ?>
+                <div class="alert alert-<?php echo $this->session->flashdata('message_type'); ?>">
+                    <?php echo $this->session->flashdata('message'); ?>
+                </div>
+            <?php } ?>          
+        </div>        
 
         <div class="row ">
             <div class="col-md-12 col-sm-12">
-                 BEGIN SAMPLE TABLE PORTLET
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
@@ -48,7 +56,7 @@
                     </div>
                     <div class="portlet-body">
 
-                        <div class="portlet-body">-->
+                        <div class="portlet-body">
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -135,12 +143,12 @@
                                     ?>
                                 </tbody>
                             </table>
-<!--                        </div>
+                        </div>
                     </div>
                 </div>
-                 END SAMPLE TABLE PORTLET
+                <!-- END SAMPLE TABLE PORTLET-->
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <!-- END CONTENT -->

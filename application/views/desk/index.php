@@ -29,7 +29,7 @@
         </div>    
 
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="dashboard-stat blue-madison">
                     <div class="visual">
                         <i class="fa fa-users"></i>
@@ -100,24 +100,43 @@
                         Ver m&aacute;s <i class="m-icon-swapright m-icon-white"></i>
                     </a>
                 </div>
-            </div>
-        </div>   
-
-<!--        <div class="row ">
-            <div class="col-md-12 col-sm-12">
-                 BEGIN PORTLET
-                <div class="portlet box blue-madison calendar">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-calendar"></i>Datos Estadisticos
+            </div>-->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="dashboard-stat purple-plum">
+                    <div class="visual">
+                        <i class="fa fa-child"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            <?php echo get_select(); ?>
+                        </div>
+                        <div class="desc">
+                            Ver Aspirantes preseleccionados
                         </div>
                     </div>
-                    <div class="portlet-body light-grey">
-                    </div>
+                    <a class="more" href="<?php echo base_url('index.php/profile'); ?>">
+                        Ver m&aacute;s <i class="m-icon-swapright m-icon-white"></i>
+                    </a>
                 </div>
-                 END PORTLET
             </div>
-        </div>-->
+            
+        </div>   
+
+        <!--        <div class="row ">
+                    <div class="col-md-12 col-sm-12">
+                         BEGIN PORTLET
+                        <div class="portlet box blue-madison calendar">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-calendar"></i>Datos Estadisticos
+                                </div>
+                            </div>
+                            <div class="portlet-body light-grey">
+                            </div>
+                        </div>
+                         END PORTLET
+                    </div>
+                </div>-->
 
     </div>
 </div>

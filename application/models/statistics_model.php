@@ -4,8 +4,9 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Statistics_model extends CI_Model {
-
-    public function get_offers() {
+    
+    
+    public function get_offers(){
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('oferta_ins')} oi,
                       {$this->db->dbprefix('inscripcion_pin')} i,
@@ -17,42 +18,45 @@ class Statistics_model extends CI_Model {
                       AND i.USUARIO_NUMERODOCUMENTO = u.USUARIO_NUMERODOCUMENTO
                       AND r.REGIONAL_ID = oi.REGIONAL_ID
                       AND CONCAT(m.DEPARTAMENTO_ID,MUNICIPIO_ID) = u.USUARIO_LUGARDENACIMIENTO
-                      AND oi.ESTADO = 1 LIMIT 12000,1000";
-        //echo $SQL_string;
+                      AND oi.ESTADO = 1";
+                      //echo $SQL_string;
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();
+        return $SQL_string_query->result();   
     }
-
-    public function get_offers_documents() {
+    
+    public function get_offers_documents(){
         $SQL_string = "SELECT * FROM
                       {$this->db->dbprefix('documento')} d
                       GROUP BY INSCRIPCION_PIN";
-        //return 1;
+                      //return 1;
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();
+        return $SQL_string_query->result();   
     }
-
-    public function get_assignment() {
+    
+    public function get_assignment(){
         $SQL_string = "SELECT * FROM
                       {$this->db->dbprefix('asignacion_per')} a,{$this->db->dbprefix('usuarios_sistema')} s
                       WHERE a.USUARIO_ID = s.USUARIO_ID
                       ";
-        //return 1;
+                      //return 1;
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();
-    }
-
-    public function get_assessment() {
+        return $SQL_string_query->result();   
+    }    
+    
+    public function get_assessment(){
         $SQL_string = "SELECT * FROM
                       {$this->db->dbprefix('asignacion_per')} a, {$this->db->dbprefix('evaluacion')} e
                       WHERE a.ASIGNACION_ID = e.ASIGNACION_ID    
                       ";
-        //return 1;
+                      //return 1;
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();
-    }
-
-    /*     * ************************************************************************************* */
+        return $SQL_string_query->result();   
+    }     
+    
+    
+    
+    
+    /****************************************************************************************/
 
     public function get_all_applicants($state = 1) {
         $Where = '';
@@ -110,8 +114,8 @@ class Statistics_model extends CI_Model {
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
-
-    public function get_score($ASIGNACION_ID) {
+    
+    public function get_score($ASIGNACION_ID){
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('evaluacion')} e, {$this->db->dbprefix('tipo_evaluacion')} t
                       WHERE t.TIPOEVALUACION_ID = e.TIPOEVALUACION_ID AND ASIGNACION_ID = '{$ASIGNACION_ID}' AND e.EVALUACION_ESTADO=1";
@@ -123,8 +127,8 @@ class Statistics_model extends CI_Model {
     public function get_user_offers($INSCRIPCION_PIN) {
         $SQL_string = "SELECT o.*,r.*, GROUP_CONCAT(r.REGIONAL_NOMBRE SEPARATOR '-') REGIONES_
                       FROM {$this->db->dbprefix('oferta_ins')} o, {$this->db->dbprefix('regional')} r "
-                . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN = '$INSCRIPCION_PIN' AND o.ESTADO=1 "
-                . " GROUP BY o.EMPLEO_ID";
+                    . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN = '$INSCRIPCION_PIN' AND o.ESTADO=1 "
+                    . " GROUP BY o.EMPLEO_ID";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
@@ -153,12 +157,12 @@ class Statistics_model extends CI_Model {
         $SQL_string_query = $this->db->query($sql_string);
         return $SQL_string_query->result();
     }
-
-    public function get_assess() {
+    
+    public function get_assess(){
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('tipo_evaluacion')}";
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();
+        return $SQL_string_query->result();        
     }
 
     public function get_table() {
@@ -276,10 +280,10 @@ class Statistics_model extends CI_Model {
                 if ($aColumns[$i] == "USUARIO_ID") {
                     $row[] = $contador;
                 } elseif ($aColumns[$i] == "IP") {
-                    $row[] = ($aRow['EVALUACION'] > 0) ? '<spam class="label label-success">SI</spam>' : '<spam class="label label-default">NO</spam>';
-                    $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]] . '/' . $aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                    $row[] = ($aRow['EVALUACION']>0)?'<spam class="label label-success">SI</spam>':'<spam class="label label-default">NO</spam>';
+                    $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
                 } elseif ($aColumns[$i] == "USUARIO_ESTADO") {
-                    $row[] = ($aRow['OFERTAS'] > 0) ? '<spam class="label label-success">' . $aRow['OFERTAS'] . '</spam>' : '<spam class="label label-default">NO</spam>';
+                    $row[] = ($aRow['OFERTAS']>0)?'<spam class="label label-success">'.$aRow['OFERTAS'].'</spam>':'<spam class="label label-default">NO</spam>';
                 } elseif ($aColumns[$i] == "movement_state_confirmation") {
                     switch ($aRow[$aColumns[$i]]) {
                         case 0: $row[] = '<center><div class="icon-thumbs-down" style="color: rgb(214, 56, 56);cursor: pointer;" title="Sin Confirmar"></div></center>';
@@ -311,14 +315,14 @@ class Statistics_model extends CI_Model {
 
         return json_encode($output);
     }
-
+    
     public function insert_assess($data) {
         $this->db->query("UPDATE {$this->db->dbprefix('evaluacion')} "
                 . "SET EVALUACION_ESTADO=0 "
                 . "WHERE "
                 . "ASIGNACION_ID='{$data['ASIGNACION_ID']}'"
                 . "AND EMPLEO_ID='{$data['EMPLEO_ID']}' AND EVALUACION_FECHA!='{$data['EVALUACION_FECHA']}' ");
-
+        
         $SQL_string = "INSERT INTO {$this->db->dbprefix('evaluacion')}
                       (
                         TIPOEVALUACION_ID,
@@ -345,7 +349,9 @@ class Statistics_model extends CI_Model {
                        )
                        ";
         return $this->db->query($SQL_string);
-    }
+    }    
+    
+    
 
     /*     * ************************************************************************ */
 

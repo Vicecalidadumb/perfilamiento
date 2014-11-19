@@ -30,7 +30,7 @@ var TableAjax = function() {
                     [10, 20, 50, 100, 150, "All"] // change per page values here
                 ],
                 "pageLength": 10, // default record count per page
-                "ajax": base_url_js + "profile/ajax_datatable",
+                "ajax": base_url_js + "index.php/profile/ajax_datatable",
                 "order": [
                     [1, "asc"]
                 ],

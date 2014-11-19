@@ -21,18 +21,11 @@ class Statistics extends CI_Controller {
     }
 
     public function reporte1() {
-
-        header("Content-type: application/octet-stream; charset=UTF-8");
-        header("Content-Disposition: attachment; filename=pruebas.xls");
-        header('Content-Type: text/html; charset=UTF-8');
-        header("Pragma: no-cache");
-        header("Expires: 0");
-
         set_time_limit(0);
         ini_set('memory_limit', '2000M');
         //VALIDAR PERMISO DEL ROL
         validation_permission_role($this->module_sigla, 'permission_view');
-
+        
         $data['empleos'] = $this->statistics_model->get_offers();
         $data['documents'] = $this->statistics_model->get_offers_documents();
         $data['assignments'] = $this->statistics_model->get_assignment();
@@ -40,8 +33,7 @@ class Statistics extends CI_Controller {
 
         $data['title'] = 'Universidad Manuela Beltran, Aplicativo de Cuentas - Hojas de Vida.';
         $data['content'] = 'statistics/reporte1';
-        //$this->load->view('template/template', $data);
-        $this->load->view('statistics/reporte1', $data);
+        $this->load->view('template/template', $data);
     }
 
     public function assess($INSCRIPCION_PIN, $ASIGNACION_ID) {

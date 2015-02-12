@@ -17,7 +17,7 @@ class Profile_model extends CI_Model {
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
-    
+
     public function get_users($USUARIO_ID) {
         $Where = '';
         if ($USUARIO_ID != 'ALL') {
@@ -34,7 +34,7 @@ class Profile_model extends CI_Model {
                       ORDER BY u.USUARIO_NOMBRES";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
-    }    
+    }
 
     public function get_applicantsdocuments_iduser($statedocument, $USUARIO_ID, $INSCRIPCION_PIN) {
         $Where = '';
@@ -79,8 +79,8 @@ class Profile_model extends CI_Model {
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
-    
-    public function get_score($ASIGNACION_ID){
+
+    public function get_score($ASIGNACION_ID) {
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('evaluacion')} e, {$this->db->dbprefix('tipo_evaluacion')} t
                       WHERE t.TIPOEVALUACION_ID = e.TIPOEVALUACION_ID AND ASIGNACION_ID = '{$ASIGNACION_ID}' AND e.EVALUACION_ESTADO=1";
@@ -92,8 +92,8 @@ class Profile_model extends CI_Model {
     public function get_user_offers($INSCRIPCION_PIN) {
         $SQL_string = "SELECT o.*,r.*, GROUP_CONCAT(r.REGIONAL_NOMBRE SEPARATOR '-') REGIONES_
                       FROM {$this->db->dbprefix('oferta_ins')} o, {$this->db->dbprefix('regional')} r "
-                    . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN = '$INSCRIPCION_PIN' AND o.ESTADO=1 "
-                    . " GROUP BY o.EMPLEO_ID";
+                . "WHERE r.REGIONAL_ID = o.REGIONAL_ID AND INSCRIPCION_PIN = '$INSCRIPCION_PIN' AND o.ESTADO=1 "
+                . " GROUP BY o.EMPLEO_ID";
         $SQL_string_query = $this->db->query($SQL_string);
         return $SQL_string_query->result();
     }
@@ -122,12 +122,12 @@ class Profile_model extends CI_Model {
         $SQL_string_query = $this->db->query($sql_string);
         return $SQL_string_query->result();
     }
-    
-    public function get_assess(){
+
+    public function get_assess() {
         $SQL_string = "SELECT *
                       FROM {$this->db->dbprefix('tipo_evaluacion')}";
         $SQL_string_query = $this->db->query($SQL_string);
-        return $SQL_string_query->result();        
+        return $SQL_string_query->result();
     }
 
     public function get_table() {
@@ -252,13 +252,13 @@ class Profile_model extends CI_Model {
                 if ($aColumns[$i] == "USUARIO_ID") {
                     $row[] = $contador;
                 } elseif ($aColumns[$i] == "IP") {
-                    $row[] = ($aRow['EVALUACION']>0)?'<spam class="label label-success">SI</spam>':'<spam class="label label-default">NO</spam>';
-                    $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]].'/'.$aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
+                    $row[] = ($aRow['EVALUACION'] > 0) ? '<spam class="label label-success">SI</spam>' : '<spam class="label label-default">NO</spam>';
+                    $row[] = '<a href="' . base_url('index.php/profile/assess/' . $aRow[$aColumns[4]] . '/' . $aRow['ASIGNACION_ID']) . '" class="btn default btn-xs blue-stripe">Evaluar</a>';
                 } elseif ($aColumns[$i] == "USUARIO_APELLIDOS") {
                     $row[] = $aRow['CIUDAD'];
                 } elseif ($aColumns[$i] == "USUARIO_ESTADO") {
-                    $row[] = ($aRow['OFERTAS']>0)?'<spam class="label label-success">'.$aRow['OFERTAS'].'</spam>':'<spam class="label label-default">NO</spam>';
-                }elseif ($aColumns[$i] == "movement_state_confirmation") {
+                    $row[] = ($aRow['OFERTAS'] > 0) ? '<spam class="label label-success">' . $aRow['OFERTAS'] . '</spam>' : '<spam class="label label-default">NO</spam>';
+                } elseif ($aColumns[$i] == "movement_state_confirmation") {
                     switch ($aRow[$aColumns[$i]]) {
                         case 0: $row[] = '<center><div class="icon-thumbs-down" style="color: rgb(214, 56, 56);cursor: pointer;" title="Sin Confirmar"></div></center>';
                             break;
@@ -289,14 +289,14 @@ class Profile_model extends CI_Model {
 
         return json_encode($output);
     }
-    
+
     public function insert_assess($data) {
         $this->db->query("UPDATE {$this->db->dbprefix('evaluacion')} "
                 . "SET EVALUACION_ESTADO=0 "
                 . "WHERE "
                 . "ASIGNACION_ID='{$data['ASIGNACION_ID']}'"
                 . "AND EMPLEO_ID='{$data['EMPLEO_ID']}' AND EVALUACION_FECHA!='{$data['EVALUACION_FECHA']}' ");
-        
+
         $SQL_string = "INSERT INTO {$this->db->dbprefix('evaluacion')}
                       (
                         TIPOEVALUACION_ID,
@@ -323,9 +323,7 @@ class Profile_model extends CI_Model {
                        )
                        ";
         return $this->db->query($SQL_string);
-    }    
-    
-    
+    }
 
     /*     * ************************************************************************ */
 
